@@ -1,0 +1,68 @@
+.hidden {
+  display: none;
+}
+
+.full-width {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+.productoform-card {
+  min-width: 120px;
+  margin: 10px auto;
+  width: 90%;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  margin-right: 10px;
+  width: 100%
+}
+
+fieldset {
+  border-color: rgb(160, 160, 160);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+}
+
+
+
+@media (max-width: 600px) {
+  .mobile-label {
+    width: 80px;
+    display: inline-block;
+    font-weight: bold;
+  }
+
+
+  .row {
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+
+  .container {
+    flex-wrap: nowrap;
+  }
+  .tabla {
+    display: block;
+    width: 100%;
+  }
+
+  .buscador {
+    display: block;
+    width: 100%;
+  }
+}

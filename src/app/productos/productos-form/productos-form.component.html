@@ -1,0 +1,68 @@
+
+
+<div class="container">
+  <form [formGroup]="productoForm" novalidate>
+    <mat-card class="productoform-card">
+      <mat-card-header>
+        <mat-card-title>Datos del producto</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Referencia del producto" formControlName="referencia">
+              <mat-error *ngIf="productoForm.controls['referencia'].hasError('required')">
+                La referencia del producto es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nombre del producto" formControlName="titulo">
+              <mat-error *ngIf="productoForm.controls['titulo'].hasError('required')">
+                El nombre del producto es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-label>Precio</mat-label>
+              <input matInput currencyMask formControlName="precio">
+              <mat-error *ngIf="productoForm.controls['precio'].hasError('min')">
+                El precio del producto no puede ser un número <strong>negativo</strong>
+              </mat-error>
+            </mat-form-field >
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <mat-select placeholder="Categoría" formControlName="categoriaId">
+                <mat-option *ngFor="let item of categorias" value="{{item._id}}">{{item.nombre}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="productoForm.controls['categoriaId'].hasError('required')">
+                La categoría es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field> 
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <textarea matInput rows=10 placeholder="Descripción del producto"
+                formControlName="descripcion"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" [disabled]="productoForm.invalid"
+          (click)="save()">{{buttonAddUpdateProduct}}</button>
+        <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

@@ -1,0 +1,240 @@
+<!-- TODO: HACER RESPONSIVE LA TABLA DE PRODUCTOS -->
+
+<div class="container">
+
+  <form [formGroup]="pedidoForm" novalidate>
+    <mat-card class="productoform-card">
+      <mat-card-header>
+        <mat-card-title>Datos del producto</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+
+        <div class="row">
+          <div class="col">
+
+            <mat-form-field [ngClass]="{hidden: !updateDeliState }">
+              <input matInput placeholder="Número de pedido" formControlName="numeroPedido">
+              <mat-error *ngIf="pedidoForm.controls['numeroPedido'].hasError('required')">
+                El número de pedido es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder='Fecha' formControlName="fecha">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <fieldset>
+          <legend>
+            Detalles de cliente
+          </legend>
+          <div class="row">
+            <div class="col">
+              <button mat-raised-button color="primary" (click)="abrirFormDialogCliente()">Buscar cliente</button>
+            </div>
+          </div>
+          <div *ngIf="(cliente)">
+            <div formGroupName="clienteGroup">
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Nombre del cliente</mat-label>
+                    <input matInput formControlName="nombre">
+                    <mat-error *ngIf="pedidoForm.get('clienteGroup.nombre')?.errors">
+                      El cliente es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Apellido</mat-label>
+                    <input matInput formControlName="apellido">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>DNI</mat-label>
+                    <input matInput class="full-width" formControlName="dni">
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>E-mail</mat-label>
+                    <input matInput class="full-width" formControlName="email">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div formGroupName="direccionesGroup">
+              <div class="row">
+                <div class="col">
+                  <mat-label>Elige una dirección existente para autocompletar los campos de dirección.</mat-label>
+                  <mat-select (selectionChange)="onChangeDir($event.value)">
+                    <mat-option *ngFor="let direccion of cliente.direcciones; let i index" [value]="direccion">
+                      {{direccion.calle}} {{direccion.localidad}} {{direccion.cp}} {{direccion.provincia}}
+
+                    </mat-option>
+                  </mat-select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Calle</mat-label>
+                    <input matInput class="full-width" formControlName="calle">
+                    <mat-error *ngIf="pedidoForm.get('direccionesGroup.calle')?.errors">
+                      La calle es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Localidad</mat-label>
+                    <input matInput class="full-width" formControlName="localidad">
+                    <mat-error *ngIf="pedidoForm.get('direccionesGroup.localidad')?.errors">
+                      La localidad es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Provincia</mat-label>
+                    <input matInput class="full-width" formControlName="provincia">
+                    <mat-error *ngIf="pedidoForm.get('direccionesGroup.provincia')?.errors">
+                      La provincia es <strong>requerida</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col">
+                  <mat-form-field class="full-width">
+                    <mat-label>Código Postal</mat-label>
+                    <input matInput class="full-width" formControlName="cp">
+                    <mat-error *ngIf="pedidoForm.get('direccionesGroup.cp')?.errors">
+                      El código postal es <strong>requerido</strong>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </fieldset>
+
+
+        <div formGroupName="detalleGroup">
+          <fieldset>
+            <legend>
+              Añadir productos al pedido
+            </legend>
+
+            <div class="row">
+              <div class="col">
+                <button mat-raised-button color="primary" (click)="abrirFormDialogProducto()">Buscar producto</button>
+              </div>
+            </div>
+            <div class="row" *ngIf="(producto && producto.referencia != '')">
+              <mat-card class="full-width">
+                <mat-card-header>
+                  <mat-card-title>{{producto.titulo}}</mat-card-title>
+                </mat-card-header>
+                <mat-card-subtitle>Ref.: {{ producto.referencia }}</mat-card-subtitle>
+                <mat-card-content>
+                  <p>{{producto.descripcion}}</p>
+                  <p><strong>Precio: {{producto.precio}} €</strong></p>
+                </mat-card-content>
+                <mat-divider></mat-divider>
+                <mat-card-actions>
+                  <mat-form-field>
+                    <input matInput type="number" class="field-right-align" placeholder="Cantidad"
+                      formControlName="cantidad" step=1 oninput="this.value=(parseInt(this.value)||0)">
+                  </mat-form-field>
+                  <mat-form-field>
+                    <input matInput type="number" class="field-right-align" placeholder="Descuento"
+                      formControlName="descuento">
+                    <span matSuffix>%</span>
+                  </mat-form-field>
+                </mat-card-actions>
+              </mat-card>
+            </div>
+            <div class="row">
+              <div class="col">
+
+                <mat-card *ngIf="(pedidoDetalle.length > 0)">
+                  <mat-card-header>
+                    <mat-card-title>Total de pedido: {{precioTotalPedido}} € </mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <table mat-table [dataSource]="dataSource" class="full-width">
+
+                      <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef> Cantidad </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.cantidad}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="referencia">
+                        <th mat-header-cell *matHeaderCellDef> Referencia </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.refProducto}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="producto">
+                        <th mat-header-cell *matHeaderCellDef> Producto </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.tituloProducto}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="descuento">
+                        <th mat-header-cell *matHeaderCellDef> Descuento </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.descuento}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="precioUnitario">
+                        <th mat-header-cell *matHeaderCellDef> Precio U. </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.precioUnitario}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="precioTotal">
+                        <th mat-header-cell *matHeaderCellDef> Total </th>
+                        <td mat-cell *matCellDef="let detalle"> {{detalle.precioTotal}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                        <td mat-cell *matCellDef="let detalle; let i = index">
+                          <button mat-button color="warn" (click)="deleteProductoFromDetalle(i)">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                  </mat-card-content>
+
+                </mat-card>
+                <button mat-raised-button color="primary" disabled={{!productSelected}}
+                  (click)="addProductToDetail()">Añadir al pedido</button>
+              </div>
+
+            </div>
+          </fieldset>
+
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary"
+          [disabled]="pedidoForm.invalid || pedidoForm.get('clienteGroup')?.invalid || pedidoDetalle.length == 0 || pedidoForm.get('direccionesGroup')?.invalid"
+          (click)="save()">{{buttonAddUpdateDeli}}</button>
+        <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

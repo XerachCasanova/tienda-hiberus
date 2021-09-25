@@ -1,0 +1,26 @@
+.space-toolbar {
+  flex: 1 1 auto;
+  margin-bottom: 10px;
+}
+
+.content {
+  height: calc(100vh - 150px);
+  padding: 10px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+}

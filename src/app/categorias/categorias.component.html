@@ -1,0 +1,46 @@
+<div>
+  <header>
+    <h1>Categorías</h1>
+  </header>
+  <section>
+    <header>
+      <h2>Listado de categorías</h2>
+    </header>
+    <div>
+      <table>
+        <tr>
+          <th>Categoría</th>
+          <th>Eliminar</th>
+          <th>Modificar</th>
+        </tr>
+        <tr  *ngFor="let cat of listadoCategorias | async"> 
+          <td>{{cat.nombre}}</td>
+          <td><button (click)="eliminarCategoria(cat)">Eliminar</button></td>
+          <td><button (click)="modificarCategoria(cat)">Modificar</button></td>
+        </tr>
+      </table>
+    </div>
+    
+  </section>
+  <section>
+    <form [formGroup]="formGroup">
+      <fieldset>
+
+        <legend>
+          Añadir/Editar categoría
+        </legend>
+
+        <div>
+          <label for="nombre"></label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre de la categoría" formControlName="nombre" />  
+        </div>
+
+        <input type="button" id="guardar" name="guardar" [disabled] = "formGroup.invalid" value="{{buttonAddUpdate}}" (click)= "insertarModificarCategoria()"/>
+        <input type="button" id="canceledit" [ngClass]="{hidden: !updateState }" name="canceledit" value="Cancelar" (click)= "reset()"/>
+
+
+      </fieldset>
+
+    </form>
+  </section>
+</div> 

@@ -1,0 +1,154 @@
+<mat-toolbar>
+  <button mat-raised-button color="primary" (click)="abrirFormDialog()">
+    <mat-icon>add</mat-icon>Añadir
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <div class="tabla">
+    <table mat-table matSort aria-label="Elements">
+      <ng-container matColumnDef="referencia">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Ref.</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{ row.referencia }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="titulo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nombre del producto
+        </mat-header-cell>
+        
+        <mat-cell *matCellDef="let row"><span class="mobile-label">Producto:</span>{{ row.titulo }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{hidden: isDetailDialog!=null }">Descripción
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row" style="width: 30%" [ngClass]="{hidden: isDetailDialog!=null }">
+          <mat-expansion-panel (opened)="descripcionOpen = true" (closed)="descripcionOpen = false">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{!descripcionOpen ? (row.descripcion | descripcion:0:50) + '...' : ''}}
+              </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <p>{{ row.descripcion }}</p>
+          </mat-expansion-panel>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
+        <mat-cell *matCellDef="let row" currencyMask><span class="mobile-label">Precio:</span>{{ row.precio }} €</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</mat-header-cell>
+        <mat-cell *matCellDef="let row"><span class="mobile-label">Categoría:</span>{{ row.categoriaId.nombre }}</mat-cell>
+      </ng-container>
+
+      <ng-container *ngIf="isDetailDialog==null; else addProduct" matColumnDef="acciones">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-button color="warn" (click)="eliminarProducto(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-button color="primary" (click)="modificarProducto(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-template #addProduct>
+
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-raised-button color="primary" (click)="addProductToDetail(row)">
+              <mat-icon>add</mat-icon> Añadir
+            </button>
+          </mat-cell>
+        </ng-container>
+
+      </ng-template>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </table>
+
+    <mat-paginator #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator>
+  </div>
+  <div class="buscador">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="filterForm">
+          <fieldset>
+            <legend>Buscador</legend>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Referencia</mat-label>
+                  <input matInput placeholder="Referencia" formControlName="referencia" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput placeholder="Nombre" formControlName="titulo" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" [ngClass]="{hidden: isDetailDialog!=null }">
+
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Descripción</mat-label>
+                  <input class="full-width" matInput placeholder="Desripcion" formControlName="descripcion" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Precio desde</mat-label>
+                  <input matInput placeholder="Precio desde" currencyMask formControlName="precioDesde" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Precio hasta</mat-label>
+                  <input matInput placeholder="Precio hasta" currencyMask formControlName="precioHasta" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-select placeholder="Categoría" formControlName="categoria">
+                    <mat-option *ngFor="let item of categorias" value="{{ item.nombre }}">{{ item.nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-card-actions class="filter-form-button">
+              <button mat-raised-button color="primary" (click)="buscarProducto()">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="listarProductos()" [ngClass]="{ hidden: !filterMode }">
+                limpiar filtros
+              </button>
+            </mat-card-actions>
+          </fieldset>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+</div>

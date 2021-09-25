@@ -1,0 +1,167 @@
+<mat-toolbar>
+  <button mat-raised-button color="primary" (click)="abrirFormDialog()">
+    <mat-icon>add</mat-icon>Añadir
+  </button>
+</mat-toolbar>
+
+
+<div class="container">
+  <div class="tabla">
+    <table mat-table class="full-width-table" matSort aria-label="Elements">
+
+      <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let row"> 
+          <span class="mobile-label">nombre:</span>
+          {{row.nombre}} {{row.apellido}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dni">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> DNI </mat-header-cell>
+        <mat-cell *matCellDef="let row"> 
+          <span class="mobile-label">DNI:</span>
+          {{row.dni}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> E-Mail </mat-header-cell>
+        <mat-cell *matCellDef="let row"> 
+          <span class="mobile-label">E-Mail:</span>
+          {{row.email}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{ hidden: isUsuarioDialog!=null }"> Nombre de Usuario </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="{ hidden: isUsuarioDialog!=null }"> 
+          {{row.username}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoUsuario">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="{ hidden: isUsuarioDialog!=null }"> Rol </mat-header-cell>
+        <mat-cell *matCellDef="let row" [ngClass]="{ hidden: isUsuarioDialog!=null }"> 
+          {{row.tipoUsuario}} 
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="direcciones"    >
+        <mat-header-cell *matHeaderCellDef mat-sort-header  [ngClass]="{ hidden: isUsuarioDialog!=null }"> Direcciones </mat-header-cell>
+        <mat-cell *matCellDef="let row; let index=index"  [ngClass]="{ hidden: isUsuarioDialog!=null }"> 
+          <mat-accordion>
+            <mat-expansion-panel (opened)="panelExtDirecciones[index] = true" 
+              (closed)="panelExtDirecciones[index] = false">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{panelExtDirecciones[index] ? 'Ocultar direcciones' : 'Mostrar direcciones'}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <p *ngFor="let dir of row.direcciones">{{dir.calle}}, {{dir.cp}} - {{dir.provincia}}, {{dir.localidad}}
+              </p>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="acciones" *ngIf="isUsuarioDialog==null; else addClient">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-button color="warn" (click)="eliminarUsuario(row)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-button color="primary" (click)="modificarUsuario(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-template #addClient>
+
+        <ng-container matColumnDef="acciones">
+          <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-raised-button color="primary" (click)="addClientToDetail(row)">
+              <mat-icon>add</mat-icon> Añadir
+            </button>
+          </mat-cell>
+        </ng-container>
+
+      </ng-template>
+
+      <ng-container matColumnDef="modificar">
+        <mat-header-cell *matHeaderCellDef>Modificar</mat-header-cell>
+        <mat-cell *matCellDef="let row"></mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </table>
+
+    <mat-paginator #paginator class="full-width-table" [length]="dataSource?.data?.length" [pageIndex]="0"
+      [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator>
+
+  </div>
+
+  <div class="buscador">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="filterForm">
+          <fieldset>
+            <legend>Buscador</legend>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput placeholder="Nombre" formControlName="nombre" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Apellido</mat-label>
+                  <input matInput placeholder="Apellido" formControlName="apellido" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>E-mail</mat-label>
+                  <input class="full-width" matInput placeholder="E-Mail" formControlName="email" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre de usuario</mat-label>
+                  <input matInput placeholder="Nombre de usuario" formControlName="username" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-select placeholder="Rol" formControlName="tipoUsuario">
+                    <mat-option *ngFor="let item of tipoUsuarioList" value="{{ item}}">{{ item }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-card-actions class="filter-form-button">
+              <button mat-raised-button color="primary" (click)="buscarUsuario()">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="listarUsuarios()" [ngClass]="{ hidden: !filterMode }">
+                limpiar filtros
+              </button>
+            </mat-card-actions>
+          </fieldset>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

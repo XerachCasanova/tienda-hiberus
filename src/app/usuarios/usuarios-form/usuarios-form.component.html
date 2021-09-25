@@ -1,0 +1,176 @@
+<!-- TODO: HACER RESPONSIVE LA TABLA DE DIRECCIONES-->
+
+<div class="container"> 
+  <form [formGroup]="usuarioForm" novalidate>
+    <mat-card class="usuarioform-card">
+      <mat-card-header>
+        <mat-card-title>Datos del usuario</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div formGroupName="usuariosGroup">
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Nombre" formControlName="nombre">
+                <mat-error *ngIf="usuarioForm.get('usuariosGroup.nombre')?.errors">
+                  El nombre es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Apellido" formControlName="apellido">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="DNI" formControlName="dni">
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="E-Mail" formControlName="email">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Nombre de usuario" formControlName="username">
+                <mat-error *ngIf="usuarioForm.get('usuariosGroup.username')?.errors">
+                  El nombre de usuario es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <p [ngClass]="{hidden: !updateUserState}">Dejar vacío este campo para mantener la clave del usuario.</p>
+              <mat-form-field class="full-width">
+                <input matInput type="password" placeholder="Clave" formControlName="clave">
+                <mat-error *ngIf="usuarioForm.get('usuariosGroup.clave')?.errors">
+                  La clave es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="Rol" formControlName="tipoUsuario">
+                  <mat-option *ngFor="let item of tipoUsuario" value="{{item}}">{{item}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="usuarioForm.get('usuariosGroup.tipoUsuario')?.errors">
+                  El tipo de usuario es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <fieldset>
+          <legend>
+            Direcciones
+          </legend>
+          <div formGroupName="direccionesGroup">
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Calle" formControlName="calle">
+                  <mat-error *ngIf="usuarioForm.get('direccionesGroup.calle')?.errors && direcciones.length == 0 ">
+                    La calle es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Localidad" formControlName="localidad">
+                  <mat-error *ngIf="usuarioForm.get('direccionesGroup.localidad')?.errors && direcciones.length == 0">
+                    La localidad es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Provincia" formControlName="provincia">
+                  <mat-error *ngIf="usuarioForm.get('direccionesGroup.provincia')?.errors && direcciones.length == 0">
+                    La provincia es <strong>requerida</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col">
+                <mat-form-field class="full-width">
+                  <input matInput placeholder="Código Postal" formControlName="cp">
+                  <mat-error *ngIf="usuarioForm.get('direccionesGroup.cp')?.errors && direcciones.length == 0">
+                    El código postal es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div>
+
+            <mat-card *ngIf="(direcciones.length > 0)">
+              <mat-card-header>
+                <mat-card-title>Direcciones</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <table mat-table [dataSource]="dataSource" class="full-width">
+
+                  <ng-container matColumnDef="calle">
+                    <th mat-header-cell *matHeaderCellDef> Calle </th>
+                    <td mat-cell *matCellDef="let dir"> {{dir.calle}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="localidad">
+                    <th mat-header-cell *matHeaderCellDef> Localidad </th>
+                    <td mat-cell *matCellDef="let dir"> {{dir.localidad}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="provincia">
+                    <th mat-header-cell *matHeaderCellDef> Provincia </th>
+                    <td mat-cell *matCellDef="let dir"> {{dir.provincia}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="cp">
+                    <th mat-header-cell *matHeaderCellDef> Código Postal </th>
+                    <td mat-cell *matCellDef="let dir"> {{dir.cp}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let dir; let i = index">
+                      <button mat-button color="warn" (click)="deleteDireccion(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                      <button mat-button color="primary" (click)="updateDireccion(i)">
+                        <mat-icon>update</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let dir; columns: displayedColumns;"></tr>
+                </table>
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+          <button mat-raised-button style="margin-top: 10px" color="primary"
+            [disabled]="usuarioForm.controls.direccionesGroup.invalid"
+            (click)="addDireccion()">{{buttonAddUpdateDir}}</button>
+
+        </fieldset>
+
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary"
+          [disabled]="(usuarioForm.controls.usuariosGroup.invalid ||  direcciones.length == 0)"
+          (click)="save()">{{buttonAddUpdateUser}}</button>
+        <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

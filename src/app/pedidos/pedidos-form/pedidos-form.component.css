@@ -1,0 +1,56 @@
+.hidden {
+  display: none;
+}
+
+.precio {
+  text-align: right;
+}
+
+.full-width {
+  width: 95%;
+  margin: 0 auto;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+.productoform-card {
+  min-width: 100px;
+  margin: 10px auto;
+  width: 90%;
+}
+
+.field-right-align {
+  text-align: right;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.col:last-child {
+  margin-right: 0;
+}
+
+fieldset {
+  border-color: rgb(160, 160, 160);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 10px;
+}
+
+legend {
+  color: rgb(124, 124, 124);
+}

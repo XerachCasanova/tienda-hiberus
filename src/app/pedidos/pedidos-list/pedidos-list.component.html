@@ -1,0 +1,52 @@
+<mat-toolbar>
+  <button mat-raised-button color="primary" (click)="abrirFormDialog()">
+    <mat-icon>add</mat-icon>Añadir
+  </button>
+</mat-toolbar>
+
+<div class="container">
+  <table mat-table class="full-width-table" matSort aria-label="Elements">
+
+    <ng-container matColumnDef="numeroPedido">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Nº de Pedido</mat-header-cell>
+      <mat-cell *matCellDef="let row"><span class="mobile-label">Nº Pedido:</span>{{row.numeroPedido}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+      <mat-cell *matCellDef="let row"><span class="mobile-label">Fecha:</span>{{row.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="precioTotal">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
+      <mat-cell *matCellDef="let row" style="padding-right: 30px" currencyMask><span class="mobile-label">Precio:</span>{{ row.precioTotal }} €</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="cliente">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+      <mat-cell *matCellDef="let row"><span class="mobile-label">Cliente:</span>{{row.cliente.nombre}} {{row.cliente.apellido}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>E-Mail</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.cliente.email}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="acciones">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-button color="warn" (click)="eliminarPedido(row)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-button color="primary" (click)="modificarPedido(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </table>
+
+  <mat-paginator #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+  </mat-paginator>
+</div>
