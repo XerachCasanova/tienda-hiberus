@@ -15,6 +15,11 @@
   min-width: 300px;
 }
 
+.mat-column-descripcion{
+  flex: none;
+  width: 300px;
+}
+
 .mat-table {
   width: 100%;
   overflow: auto;
@@ -49,6 +54,23 @@ legend {
   color: rgb(124, 124, 124);
 }
 
+@media (max-width: 920px){
+
+  .container {
+    flex-wrap: nowrap;
+  }
+  .tabla {
+    display: block;
+    width: 100%;
+  }
+
+  .buscador {
+    display: block;
+    width: 100%;
+  }
+
+}
+
 
 @media (max-width: 700px) {
   .mobile-label {
@@ -72,16 +94,5 @@ legend {
     min-height: 0;
   }
 
-  .container {
-    flex-wrap: nowrap;
-  }
-  .tabla {
-    display: block;
-    width: 100%;
-  }
-
-  .buscador {
-    display: block;
-    width: 100%;
-  }
+  
 }

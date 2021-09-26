@@ -7,8 +7,9 @@
 }
 
 .full-width {
-  width: 95%;
+  width: 100%;
   margin: 0 auto;
+  min-width: 100px;
 }
 
 .container {
@@ -44,7 +45,12 @@
   margin-right: 0;
 }
 
+.mobile-label {
+  display:none;
+}
+
 fieldset {
+  min-width:auto;
   border-color: rgb(160, 160, 160);
   border-style: solid;
   border-width: 1px;
@@ -53,4 +59,41 @@ fieldset {
 
 legend {
   color: rgb(124, 124, 124);
+}
+
+@media (max-width: 700px) { 
+  .mobile-label {
+    display:block;
+    width: 80px;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .mat-cell:first-of-type{
+    padding:0;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+  .col{
+    width:100%;
+  }
+  .row {
+    flex-direction: column;
+    align-items: start;
+    padding: 8px 24px;
+  }
+
+  .container {
+    flex-wrap: nowrap;
+  }
+
+  .mat-row {
+    flex-direction: column;
+    align-items: start;
+    min-height: 0;
+    padding: 8px 24px;
+  }
+
 }

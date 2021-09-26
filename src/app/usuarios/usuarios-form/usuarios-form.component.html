@@ -120,39 +120,39 @@
                 <table mat-table [dataSource]="dataSource" class="full-width">
 
                   <ng-container matColumnDef="calle">
-                    <th mat-header-cell *matHeaderCellDef> Calle </th>
-                    <td mat-cell *matCellDef="let dir"> {{dir.calle}} </td>
+                    <mat-header-cell *matHeaderCellDef> Calle </mat-header-cell>
+                    <mat-cell *matCellDef="let dir"><span class="mobile-label">Calle:</span> {{dir.calle}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="localidad">
-                    <th mat-header-cell *matHeaderCellDef> Localidad </th>
-                    <td mat-cell *matCellDef="let dir"> {{dir.localidad}} </td>
+                    <mat-header-cell *matHeaderCellDef> Localidad </mat-header-cell>
+                    <mat-cell *matCellDef="let dir"><span class="mobile-label">Localidad:</span> {{dir.localidad}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="provincia">
-                    <th mat-header-cell *matHeaderCellDef> Provincia </th>
-                    <td mat-cell *matCellDef="let dir"> {{dir.provincia}} </td>
+                    <mat-header-cell *matHeaderCellDef> Provincia </mat-header-cell>
+                    <mat-cell *matCellDef="let dir"><span class="mobile-label">Provincia:</span> {{dir.provincia}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="cp">
-                    <th mat-header-cell *matHeaderCellDef> Código Postal </th>
-                    <td mat-cell *matCellDef="let dir"> {{dir.cp}} </td>
+                    <mat-header-cell *matHeaderCellDef> Código Postal </mat-header-cell>
+                    <mat-cell *matCellDef="let dir"><span class="mobile-label">C.P.:</span> {{dir.cp}} </mat-cell>
                   </ng-container>
 
                   <ng-container matColumnDef="acciones">
-                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                    <td mat-cell *matCellDef="let dir; let i = index">
+                    <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
+                    <mat-cell *matCellDef="let dir; let i = index">
                       <button mat-button color="warn" (click)="deleteDireccion(i)">
                         <mat-icon>delete</mat-icon>
                       </button>
                       <button mat-button color="primary" (click)="updateDireccion(i)">
                         <mat-icon>update</mat-icon>
                       </button>
-                    </td>
+                    </mat-cell>
                   </ng-container>
 
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let dir; columns: displayedColumns;"></tr>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let dir; columns: displayedColumns;"></mat-row>
                 </table>
               </mat-card-content>
             </mat-card>
