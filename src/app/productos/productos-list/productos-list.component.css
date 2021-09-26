@@ -35,7 +35,7 @@
 }
 
 .buscador {
-  display: flex;
+  display: inline-block;
   width: 25%;
 }
 

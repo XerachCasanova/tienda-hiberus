@@ -5,13 +5,16 @@
     "ng": "ng",
     "start": "ng serve",
     "heroku-postbuild": "ng build --prod",
+    "postinstall": "ng build --aot --prod",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/build-angular": "^12.1.4",
     "@angular/animations": "~12.1.1",
+    "@angular/cli": "^12.1.4",
     "@angular/cdk": "^12.2.6",
     "@angular/common": "~12.1.1",
     "@angular/compiler": "~12.1.1",
