@@ -65,7 +65,7 @@ legend {
   }
 
   .buscador {
-    display: block;
+    display: inline-block;
     width: 100%;
   }
 

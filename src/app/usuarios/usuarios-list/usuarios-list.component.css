@@ -10,6 +10,7 @@
 
 .container {
   display: flex;
+  width: 100%;
   flex-direction: column;
   flex-wrap: wrap;
   max-height: 500px;
@@ -39,7 +40,7 @@
 }
 
 .buscador {
-  display: flex;
+  display: inline-block;
   width: 25%;
 }
 
