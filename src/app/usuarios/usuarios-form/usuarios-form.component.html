@@ -157,20 +157,22 @@
               </mat-card-content>
             </mat-card>
           </div>
-
-          <button mat-raised-button style="margin-top: 10px" color="primary"
+          <div class="acciones">
+            <button mat-raised-button style="margin-top: 10px" color="primary"
             [disabled]="usuarioForm.controls.direccionesGroup.invalid"
             (click)="addDireccion()">{{buttonAddUpdateDir}}</button>
+          </div>
+          
 
         </fieldset>
 
       </mat-card-content>
-      <mat-card-actions>
+      <div class="acciones">
         <button mat-raised-button color="primary"
           [disabled]="(usuarioForm.controls.usuariosGroup.invalid ||  direcciones.length == 0)"
           (click)="save()">{{buttonAddUpdateUser}}</button>
         <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
-      </mat-card-actions>
+      </div>
     </mat-card>
   </form>
 </div>

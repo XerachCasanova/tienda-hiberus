@@ -173,7 +173,7 @@ export class UsuariosListComponent {
 
   abrirFormDialog() {
     const dialogRef = this.dialog.open(UsuariosFormComponent, {
-      width: '600px',
+      width: '700px',
       height: '800px',
       data: { ...this.usuario },
     });

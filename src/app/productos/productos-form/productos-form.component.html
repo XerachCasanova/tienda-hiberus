@@ -58,11 +58,11 @@
         </div>
 
       </mat-card-content>
-      <mat-card-actions>
+      <div class="acciones">
         <button mat-raised-button color="primary" [disabled]="productoForm.invalid"
           (click)="save()">{{buttonAddUpdateProduct}}</button>
         <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
-      </mat-card-actions>
+      </div>
     </mat-card>
   </form>
 </div>

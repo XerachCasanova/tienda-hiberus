@@ -47,6 +47,15 @@ legend {
   display:none;
 }
 
+.acciones{
+  padding: 5px;
+  
+}
+
+.acciones button{
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
 
 
 @media (max-width: 600px) {
@@ -75,7 +84,20 @@ legend {
     display: none;
   }
 
+  .mat-card{
+    padding: 0;
+  }
+
+  .mat-card-header-text{
+    margin: 0 !important;
+  }
+
+  .mat-card-action{
+    padding: 10px
+  }
+
   .mat-row {
+    display: inherit;
     flex-direction: column;
     align-items: start;
     min-height: 0;

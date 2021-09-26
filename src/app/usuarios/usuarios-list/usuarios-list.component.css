@@ -14,7 +14,6 @@
   flex-direction: column;
   flex-wrap: wrap;
   max-height: 500px;
-  min-width: 300px;
 }
 
 .mat-table {
@@ -53,6 +52,7 @@ fieldset {
   border-style: solid;
   border-width: 1px;
   border-radius: 10px;
+  min-width: 100px;
 }
 
 legend {
@@ -84,6 +84,10 @@ legend {
 
   .mat-cell:first-of-type{
     padding:0;
+  }
+
+  .mat-card{
+    padding: 0
   }
 
   .mat-header-row {

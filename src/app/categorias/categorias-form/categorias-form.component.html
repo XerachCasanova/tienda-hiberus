@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<div class="container">
 
   <form [formGroup]="categoriaForm" novalidate>
     <mat-card class="productoform-card">
@@ -21,11 +21,11 @@
 
         </div>
       </mat-card-content>
-      <mat-card-actions>
+      <div class="acciones">
         <button mat-raised-button color="primary" [disabled]="categoriaForm.invalid"
           (click)="save()">{{buttonAddUpdateCategory}}</button>
         <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
-      </mat-card-actions>
+      </div>
     </mat-card>
   </form>
 </div>

@@ -219,6 +219,9 @@
                   </mat-card-content>
 
                 </mat-card>
+                <div class="acciones">
+
+                </div>
                 <button mat-raised-button color="primary" disabled={{!productSelected}}
                   (click)="addProductToDetail()">Añadir al pedido</button>
               </div>
@@ -227,14 +230,14 @@
           </fieldset>
 
         </div>
-
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary"
+        <div class="acciones">
+          <button mat-raised-button color="primary"
           [disabled]="pedidoForm.invalid || pedidoForm.get('clienteGroup')?.invalid || pedidoDetalle.length == 0 || pedidoForm.get('direccionesGroup')?.invalid"
           (click)="save()">{{buttonAddUpdateDeli}}</button>
-        <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
-      </mat-card-actions>
+          <button mat-raised-button color="warn" (click)="reset()">Cancelar</button>
+        </div>
+
+      </mat-card-content>
     </mat-card>
   </form>
 </div>

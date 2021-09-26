@@ -37,6 +37,16 @@ fieldset {
   border-radius: 10px;
 }
 
+.acciones{
+  padding: 5px;
+  
+}
+
+.acciones button{
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
 
 
 @media (max-width: 600px) {
