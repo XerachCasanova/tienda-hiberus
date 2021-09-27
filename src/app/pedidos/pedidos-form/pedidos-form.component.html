@@ -149,19 +149,20 @@
                 <mat-card-content>
                   <p>{{producto.descripcion}}</p>
                   <p><strong>Precio: {{producto.precio}} €</strong></p>
+                  <mat-divider></mat-divider>
+                  <div class="acciones">
+                    <mat-form-field>
+                      <input matInput type="number" class="field-right-align" placeholder="Cantidad"
+                        formControlName="cantidad" step=1 oninput="this.value=(parseInt(this.value)||0)">
+                    </mat-form-field>
+                    <mat-form-field>
+                      <input matInput type="number" class="field-right-align" placeholder="Descuento"
+                        formControlName="descuento">
+                      <span matSuffix>%</span>
+                    </mat-form-field>
+                  </div>
+                  
                 </mat-card-content>
-                <mat-divider></mat-divider>
-                <mat-card-actions>
-                  <mat-form-field>
-                    <input matInput type="number" class="field-right-align" placeholder="Cantidad"
-                      formControlName="cantidad" step=1 oninput="this.value=(parseInt(this.value)||0)">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput type="number" class="field-right-align" placeholder="Descuento"
-                      formControlName="descuento">
-                    <span matSuffix>%</span>
-                  </mat-form-field>
-                </mat-card-actions>
               </mat-card>
             </div>
             <div class="row">
