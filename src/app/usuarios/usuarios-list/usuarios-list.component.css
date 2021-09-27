@@ -66,15 +66,9 @@ fieldset {
   min-width: 100px;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
-}
-
-.col {
+.row{
   flex: 1;
-  width: 100%;
-  margin-right: 10px;
+  margin: 10px;
 }
 
 legend {
