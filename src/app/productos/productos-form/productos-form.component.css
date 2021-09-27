@@ -2,6 +2,11 @@
   display: none;
 }
 
+.mat-card{
+  box-shadow: none;
+  }
+
+
 .full-width {
   width: 100%;
   margin: 0 auto;
@@ -60,7 +65,7 @@ fieldset {
   .row {
     flex-direction: column;
     align-items: start;
-    padding: 8px 24px;
+    padding: 8px 5px;
   }
 
   .container {

@@ -27,7 +27,7 @@
           <mat-expansion-panel (opened)="descripcionOpen = true" (closed)="descripcionOpen = false">
             <mat-expansion-panel-header>
               <mat-panel-title>
-                {{!descripcionOpen ? (row.descripcion | descripcion:0:50) + '...' : ''}}
+                {{!descripcionOpen ? (row.descripcion | acotarString:0:40) + '...' : ''}}
               </mat-panel-title>
 
             </mat-expansion-panel-header>

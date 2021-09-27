@@ -2,6 +2,11 @@
   display: none;
 }
 
+
+.mat-card{
+  box-shadow: none;
+  }
+
 .precio {
   text-align: right;
 }
@@ -84,10 +89,6 @@ legend {
     padding:0;
   }
 
-
-  .mat-card{
-    padding: 0;
-  }
 
   .mat-card-action{
     padding: 10px

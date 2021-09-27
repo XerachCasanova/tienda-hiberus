@@ -3,9 +3,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 //TODO: RENOMBRARLO DE UNA MANERA MÁS GENÉRICA, YA QUE SIRVE PARA ACOTAR CUALQUIER STRING
 @Pipe({
-  name: 'descripcion',
+  name: 'acotarString',
 })
-export class DescripcionPipe implements PipeTransform {
+export class AcotarStringPipe implements PipeTransform {
   transform(cadena: string, start: number, end: number): string | null {
     {
       if (cadena == null) {

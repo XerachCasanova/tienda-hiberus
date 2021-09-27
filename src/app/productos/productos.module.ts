@@ -18,13 +18,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductosFormComponent } from './productos-form/productos-form.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { DescripcionPipe } from './descripcion.pipe';
+import { AcotarStringPipe } from '../pipes/acotar-string.pipe';
 
 @NgModule({
   declarations: [
     ProductosListComponent,
     ProductosFormComponent,
-    DescripcionPipe,
+    AcotarStringPipe,
+
   ],
   imports: [
     CommonModule,
