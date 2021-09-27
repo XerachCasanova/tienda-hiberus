@@ -6,6 +6,66 @@
 
 
 <div class="container">
+  <div class="buscador">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="filterForm">
+          <fieldset>
+            <legend>Buscador</legend>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput placeholder="Nombre" formControlName="nombre" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Apellido</mat-label>
+                  <input matInput placeholder="Apellido" formControlName="apellido" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>E-mail</mat-label>
+                  <input class="full-width" matInput placeholder="E-Mail" formControlName="email" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre de usuario</mat-label>
+                  <input matInput placeholder="Nombre de usuario" formControlName="username" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-select placeholder="Rol" formControlName="tipoUsuario">
+                    <mat-option *ngFor="let item of tipoUsuarioList" value="{{ item}}">{{ item }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="filter-form-button">
+              <button mat-raised-button color="primary" (click)="buscarUsuario()">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="listarUsuarios()" [ngClass]="{ hidden: !filterMode }">
+                limpiar filtros
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
   <div class="tabla">
     <table mat-table class="full-width-table" matSort aria-label="Elements">
 
@@ -103,65 +163,5 @@
     </mat-paginator>
 
   </div>
-
-  <div class="buscador">
-    <mat-card>
-      <mat-card-content>
-        <form [formGroup]="filterForm">
-          <fieldset>
-            <legend>Buscador</legend>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Nombre</mat-label>
-                  <input matInput placeholder="Nombre" formControlName="nombre" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Apellido</mat-label>
-                  <input matInput placeholder="Apellido" formControlName="apellido" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>E-mail</mat-label>
-                  <input class="full-width" matInput placeholder="E-Mail" formControlName="email" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Nombre de usuario</mat-label>
-                  <input matInput placeholder="Nombre de usuario" formControlName="username" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-select placeholder="Rol" formControlName="tipoUsuario">
-                    <mat-option *ngFor="let item of tipoUsuarioList" value="{{ item}}">{{ item }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-            <mat-card-actions class="filter-form-button">
-              <button mat-raised-button color="primary" (click)="buscarUsuario()">
-                <mat-icon>search</mat-icon>
-              </button>
-              <button mat-raised-button color="primary" (click)="listarUsuarios()" [ngClass]="{ hidden: !filterMode }">
-                limpiar filtros
-              </button>
-            </mat-card-actions>
-          </fieldset>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  
 </div>

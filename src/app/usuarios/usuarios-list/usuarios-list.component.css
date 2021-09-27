@@ -10,6 +10,7 @@
 
 .container {
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   flex-direction: column;
   flex-wrap: wrap;
@@ -27,7 +28,8 @@
 }
 
 .tabla {
-  width: 72%;
+  display: block;
+  width: 100%;
 }
 
 .mat-column-direcciones{
@@ -39,8 +41,14 @@
 }
 
 .buscador {
-  display: inline-block;
-  width: 25%;
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  
+}
+
+.mat-form-field{
+  width:100%;
 }
 
 .filter-form-field {
@@ -48,11 +56,25 @@
 }
 
 fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   border-color: rgb(160, 160, 160);
   border-style: solid;
   border-width: 1px;
   border-radius: 10px;
   min-width: 100px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  flex: 1;
+  width: 100%;
+  margin-right: 10px;
 }
 
 legend {
@@ -101,7 +123,13 @@ legend {
     padding: 8px 24px;
   }
 
-  
+  .mat-card{
+    box-shadow: none;
+  }
 
+  .row{
+    display: block;
+    margin: 0;
+  }
   
 }

@@ -5,6 +5,77 @@
 </mat-toolbar>
 
 <div class="container">
+  <div class="buscador">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="filterForm">
+          <fieldset>
+            <legend>Buscador</legend>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Referencia</mat-label>
+                  <input matInput placeholder="Referencia" formControlName="referencia" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput placeholder="Nombre" formControlName="titulo" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" [ngClass]="{hidden: isDetailDialog!=null }">
+
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Descripción</mat-label>
+                  <input class="full-width" matInput placeholder="Desripcion" formControlName="descripcion" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Precio desde</mat-label>
+                  <input matInput placeholder="Precio desde" currencyMask formControlName="precioDesde" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-label>Precio hasta</mat-label>
+                  <input matInput placeholder="Precio hasta" currencyMask formControlName="precioHasta" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <mat-form-field class="filter-form-field">
+                  <mat-select placeholder="Categoría" formControlName="categoria">
+                    <mat-option *ngFor="let item of categorias" value="{{ item.nombre }}">{{ item.nombre }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <mat-card-actions class="filter-form-button">
+              <button mat-raised-button color="primary" (click)="buscarProducto()">
+                <mat-icon>search</mat-icon>
+              </button>
+              <button mat-raised-button color="primary" (click)="listarProductos()" [ngClass]="{ hidden: !filterMode }">
+                limpiar filtros
+              </button>
+            </mat-card-actions>
+          </fieldset>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
   <div class="tabla">
     <table mat-table matSort aria-label="Elements">
       <ng-container matColumnDef="referencia">
@@ -80,75 +151,6 @@
       [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
     </mat-paginator>
   </div>
-  <div class="buscador">
-    <mat-card>
-      <mat-card-content>
-        <form [formGroup]="filterForm">
-          <fieldset>
-            <legend>Buscador</legend>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Referencia</mat-label>
-                  <input matInput placeholder="Referencia" formControlName="referencia" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Nombre</mat-label>
-                  <input matInput placeholder="Nombre" formControlName="titulo" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col" [ngClass]="{hidden: isDetailDialog!=null }">
-
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Descripción</mat-label>
-                  <input class="full-width" matInput placeholder="Desripcion" formControlName="descripcion" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Precio desde</mat-label>
-                  <input matInput placeholder="Precio desde" currencyMask formControlName="precioDesde" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-label>Precio hasta</mat-label>
-                  <input matInput placeholder="Precio hasta" currencyMask formControlName="precioHasta" />
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <mat-form-field class="filter-form-field">
-                  <mat-select placeholder="Categoría" formControlName="categoria">
-                    <mat-option *ngFor="let item of categorias" value="{{ item.nombre }}">{{ item.nombre }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-            <mat-card-actions class="filter-form-button">
-              <button mat-raised-button color="primary" (click)="buscarProducto()">
-                <mat-icon>search</mat-icon>
-              </button>
-              <button mat-raised-button color="primary" (click)="listarProductos()" [ngClass]="{ hidden: !filterMode }">
-                limpiar filtros
-              </button>
-            </mat-card-actions>
-          </fieldset>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  
 
 </div>
