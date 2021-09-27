@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="info">
+    <mat-icon color="warn">error</mat-icon>
+  </div>
+  <div class="info">
+    <ul>
+      <li *ngFor="let error of errores">{{error}}</li>
+    </ul>
+  </div>
+  <div class="info">
+    <button mat-raised-button color="primary" (click)="dialogRef.close()">Ok</button>
+  </div>
+</div>
+

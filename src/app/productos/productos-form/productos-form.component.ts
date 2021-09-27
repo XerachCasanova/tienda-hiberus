@@ -1,9 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CategoriasService } from 'src/app/categorias/categorias.service';
+import { ErroresComponent } from 'src/app/errores/errores/errores.component';
 import { Categoria } from 'src/app/models/categoria';
 import { Producto } from 'src/app/models/producto';
+import { NotificationsService } from 'src/app/notifications.service';
+import { ProductosService } from '../productos.service';
 
 @Component({
   selector: 'app-productos-form',
@@ -22,7 +25,11 @@ export class ProductosFormComponent {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<ProductosFormComponent>,
+    public dialogErroresRef: MatDialogRef<ErroresComponent>,
+    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public producto: Producto,
+    private productosService: ProductosService,
+    private notificationsService: NotificationsService,
     private categoriasService: CategoriasService
   ) {
     this.productoForm = this.formBuilder.group({});
@@ -53,8 +60,41 @@ export class ProductosFormComponent {
       ...this.productoForm.value,
     };
 
-    this.dialogRef.close(this.producto);
+    let accion: string;
+    let request;
+
+    if (this.producto._id == '') {
+      request = this.productosService.insertProducto(this.producto);
+      accion = 'creado';
+    } else {
+      request = this.productosService.updateProducto(this.producto);
+      accion = 'modificado';
+    }
+
+    request.subscribe(
+      (data) => {
+        this.notificationsService.openNotification(
+          'Producto ' + accion + ' correctamente'
+        );
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        //this.erroresService.manageError(error);
+
+        this.abrirErrorDialog(error)
+      }
+    );
   }
+
+  abrirErrorDialog(errores:any) {
+    const dialogErroresRef = this.dialog.open(ErroresComponent, {
+      width: '400px',
+      height: '300px',
+      data: { errores },
+    });
+
+  }
+
 
   reset() {
     this.resetProducto();

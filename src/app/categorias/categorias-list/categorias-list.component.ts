@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { ErroresService } from 'src/app/errores.service';
 import { Categoria } from 'src/app/models/categoria';
 import { NotificationsService } from 'src/app/notifications.service';
 import { CategoriasFormComponent } from '../categorias-form/categorias-form.component';
@@ -30,7 +29,6 @@ export class CategoriasListComponent implements AfterViewInit {
 
   constructor(
     breakpointObserver: BreakpointObserver,
-    private erroresService: ErroresService,
     private notificationsService: NotificationsService,
     private categoriasService: CategoriasService,
     public dialog: MatDialog
@@ -58,30 +56,7 @@ export class CategoriasListComponent implements AfterViewInit {
     });
   }
 
-  save() {
-    let accion: string;
-    let request;
-    if (this.categoria._id == '') {
-      request = this.categoriasService.insertCategoria(this.categoria);
-      accion = 'creada';
-    } else {
-      request = this.categoriasService.updateCategoria(this.categoria);
 
-      accion = 'modificada';
-    }
-
-    request.subscribe(
-      (data) => {
-        this.listarCategorias();
-        this.notificationsService.openNotification(
-          'Categoría ' + accion + ' correctamente'
-        );
-      },
-      (error) => {
-        this.erroresService.manageError(error);
-      }
-    );
-  }
 
   eliminarCategoria(categoriaToDelete: Categoria) {
     this.categoriasService
@@ -108,8 +83,8 @@ export class CategoriasListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.categoria = { ...result };
-        this.save();
+        this.listarCategorias();
+  
       }
 
       this.categoria = {

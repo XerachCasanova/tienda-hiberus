@@ -36,7 +36,7 @@ export class UsuariosListDataSource extends DataSource<Usuario> {
 
   disconnect(): void {}
 
-  private getPagedData(data: Usuario[]): Usuario[] {
+  private getPagedData(data: Usuario[]): Usuario[] { 
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.splice(startIndex, this.paginator.pageSize);

@@ -17,7 +17,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { CategoriasService } from 'src/app/categorias/categorias.service';
-import { ErroresService } from 'src/app/errores.service';
 import { Categoria } from 'src/app/models/categoria';
 import { Producto } from 'src/app/models/producto';
 import { NotificationsService } from 'src/app/notifications.service';
@@ -74,13 +73,13 @@ export class ProductosListComponent implements AfterViewInit {
   //Inyectamos opcionalmente el dialog para que el componente pueda comportarse de manera distinta
   constructor(
     breakpointObserver: BreakpointObserver,
-    private erroresService: ErroresService,
     private notificationsService: NotificationsService,
     private productosService: ProductosService,
     private categoriasService: CategoriasService,
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     @Optional() public dialogRef: MatDialogRef<ProductosListComponent>,
+
     @Optional() @Inject(MAT_DIALOG_DATA) public isDetailDialog: boolean
   ) {
     breakpointObserver.observe(['(max-width: 700px)']).subscribe((result) => {
@@ -142,32 +141,6 @@ export class ProductosListComponent implements AfterViewInit {
     }
   }
 
-  save() {
-    //aquí se gestiona tanto el añadir como el modificar enviando al backend el producto
-    let request;
-    let accion: string;
-
-    if (this.producto._id == '') {
-      request = this.productosService.insertProducto(this.producto);
-      accion = 'creado';
-    } else {
-      request = this.productosService.updateProducto(this.producto);
-      accion = 'modificado';
-    }
-
-    request.subscribe(
-      (data) => {
-        this.listarProductos();
-        this.notificationsService.openNotification(
-          'Producto ' + accion + ' correctamente'
-        );
-      },
-      (error) => {
-        this.erroresService.manageError(error);
-      }
-    );
-  }
-
   eliminarProducto(productoToDelete: Producto) {
     this.productosService.deleteProducto(productoToDelete).subscribe((data) => {
       this.listarProductos();
@@ -194,20 +167,14 @@ export class ProductosListComponent implements AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.producto = { ...result };
-        this.save();
+
+        this.listarProductos();
       }
 
-      this.producto = {
-        _id: '',
-        referencia: '',
-        titulo: '',
-        descripcion: '',
-        precio: 0,
-        categoriaId: '',
-      };
     });
   }
+
+
 
   addProductToDetail(productoToAddDetail: Producto) {
     this.dialogRef.close(productoToAddDetail);

@@ -24,7 +24,6 @@ import { UsuariosListDataSource } from './usuarios-list.datasource';
 import { UsuariosFormComponent } from '../usuarios-form/usuarios-form.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NotificationsService } from 'src/app/notifications.service';
-import { ErroresService } from 'src/app/errores.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
@@ -60,7 +59,6 @@ export class UsuariosListComponent {
 
   constructor(
     breakpointObserver: BreakpointObserver,
-    private erroresService: ErroresService,
     private notificationsService: NotificationsService,
     private usuariosService: UsuariosService,
     public dialog: MatDialog,
@@ -107,33 +105,6 @@ export class UsuariosListComponent {
     });
   }
 
-  save() {
-    //Aquí gestionamos tanto añadir como modificar.
-
-    let accion: string;
-
-    let request;
-    if (this.usuario._id == '') {
-      request = this.usuariosService.insertUsuario(this.usuario);
-      accion = 'creado';
-    } else {
-      request = this.usuariosService.updateUsuario(this.usuario);
-      accion = 'modificado';
-    }
-
-    request.subscribe(
-      (data) => {
-        this.listarUsuarios();
-        this.notificationsService.openNotification(
-          'Usuario ' + accion + ' correctamente'
-        );
-      },
-      (error) => {
-        this.erroresService.manageError(error);
-      }
-    );
-  }
-
   eliminarUsuario(usuarioToDelete: Usuario) {
     this.usuariosService.deleteUsuario(usuarioToDelete).subscribe((data) => {
       this.listarUsuarios();
@@ -172,7 +143,7 @@ export class UsuariosListComponent {
   }
 
   abrirFormDialog() {
-    const dialogRef = this.dialog.open(UsuariosFormComponent, {
+    const dialogRef = this.dialog.open(UsuariosFormComponent, { 
       width: '700px',
       height: '800px',
       data: { ...this.usuario },
@@ -181,21 +152,8 @@ export class UsuariosListComponent {
     dialogRef.afterClosed().subscribe((result) => {
       //Si el formulario devuelve un usuario, se rellena la variable usuario, se envía al método que añade o modifica y se limpia el usuario.
       if (result) {
-        this.usuario = { ...result };
-        this.save();
+        this.listarUsuarios();
       }
-
-      this.usuario = {
-        _id: '',
-        nombre: '',
-        apellido: '',
-        dni: '',
-        email: '',
-        username: '',
-        clave: '',
-        tipoUsuario: tipoUsuario.CLIENT,
-        direcciones: [],
-      };
     });
   }
 

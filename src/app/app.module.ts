@@ -24,7 +24,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import 'moment/locale/es';
-import { ErroresService } from './errores.service';
+
+import { ErroresComponent } from './errores/errores/errores.component';
+import { ErroresService } from './errores/errores/errores.service';
+
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'right',
@@ -37,7 +40,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ErroresComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

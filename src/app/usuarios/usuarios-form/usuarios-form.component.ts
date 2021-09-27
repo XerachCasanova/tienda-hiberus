@@ -1,9 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tipoUsuario, Usuario } from 'src/app/models/usuario';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DireccionesFormDataSource } from './direcciones-form-datasource';
 import { NotificationsService } from 'src/app/notifications.service';
+import { UsuariosService } from '../usuarios.service';
+import { ErroresComponent } from 'src/app/errores/errores/errores.component';
 
 @Component({
   selector: 'app-usuarios-form',
@@ -35,6 +37,10 @@ export class UsuariosFormComponent {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<UsuariosFormComponent>,
+    public dialogErroresRef: MatDialogRef<ErroresComponent>,
+    public dialog: MatDialog,
+    private usuariosService:UsuariosService,
+    private notificationsService:NotificationsService,
     @Inject(MAT_DIALOG_DATA) public usuario: Usuario
   ) {
     this.usuarioForm = this.formBuilder.group({});
@@ -74,7 +80,7 @@ export class UsuariosFormComponent {
   save() {
     //Eliminamos el campo index antes de enviar a la bd, ya que solo es un indicador para el array direcciones
 
-    this.direcciones.forEach((dir) => delete dir.index);
+    this.direcciones.forEach((dir) => delete dir.index); 
 
     //construimos el usuario para enviarlo al componente lista, que se encarga de enviarlo al backend
     this.usuario = {
@@ -82,7 +88,40 @@ export class UsuariosFormComponent {
       direcciones: [...this.direcciones],
     };
 
-    this.dialogRef.close(this.usuario);
+    let accion: string;
+
+    let request;
+    if (this.usuario._id == '') {
+      request = this.usuariosService.insertUsuario(this.usuario);
+      accion = 'creado';
+    } else {
+      request = this.usuariosService.updateUsuario(this.usuario);
+      accion = 'modificado';
+    }
+
+    request.subscribe(
+      (data) => {
+        
+        this.notificationsService.openNotification(
+          'Usuario ' + accion + ' correctamente'
+        );
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        //this.erroresService.manageError(error);
+
+        this.abrirErrorDialog(error)
+      }
+    );
+  }
+
+  abrirErrorDialog(errores:any) {
+    const dialogErroresRef = this.dialog.open(ErroresComponent, {
+      width: '400px',
+      height: '300px',
+      data: { errores },
+    });
+
   }
 
   //-----------------------------Gestión del array direcciones--------------------------------//

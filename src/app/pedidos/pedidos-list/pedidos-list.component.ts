@@ -5,7 +5,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
-import { ErroresService } from 'src/app/errores.service';
 import { Pedido } from 'src/app/models/pedido';
 import { NotificationsService } from 'src/app/notifications.service';
 import { PedidosFormComponent } from '../pedidos-form/pedidos-form.component';
@@ -54,7 +53,6 @@ export class PedidosListComponent implements AfterViewInit {
 
   constructor(
     breakpointObserver: BreakpointObserver,
-    private erroresService: ErroresService,
     private notificationsService: NotificationsService,
     private pedidosService: PedidosService,
     public dialog: MatDialog
@@ -89,33 +87,6 @@ export class PedidosListComponent implements AfterViewInit {
     });
   }
 
-  save() {
-    /* Gestionamos tanto añadir como modificar el pedido que llega desde el formulario. */
-    let request;
-
-    let accion: string;
-
-    if (!this.pedido._id || this.pedido._id == '') {
-      request = this.pedidosService.insertPedido(this.pedido);
-      accion = 'creado';
-    } else {
-      request = this.pedidosService.updatePedido(this.pedido);
-      accion = 'modificado';
-    }
-
-    request.subscribe(
-      (data) => {
-        this.listarPedidos();
-        this.notificationsService.openNotification(
-          'Pedido ' + accion + ' correctamente'
-        );
-      },
-      (error) => {
-        this.erroresService.manageError(error);
-      }
-    );
-  }
-
   eliminarPedido(pedidoToDelete: Pedido) {
     this.pedidosService.deletePedido(pedidoToDelete).subscribe((data) => {
       this.listarPedidos();
@@ -145,8 +116,8 @@ export class PedidosListComponent implements AfterViewInit {
     dialogRef.afterClosed().subscribe((result) => {
       // Si devuelve un pedido, lo enviamos a guardar y reseteamos la variable.
       if (result) {
-        this.pedido = { ...result };
-        this.save();
+
+        this.listarPedidos();
       }
 
       this.pedido = {

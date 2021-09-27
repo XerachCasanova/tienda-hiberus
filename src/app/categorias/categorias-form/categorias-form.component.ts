@@ -1,7 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ErroresComponent } from 'src/app/errores/errores/errores.component';
 import { Categoria } from 'src/app/models/categoria';
+import { NotificationsService } from 'src/app/notifications.service';
+import { CategoriasService } from '../categorias.service';
 
 @Component({
   selector: 'app-categorias-form',
@@ -19,6 +22,10 @@ export class CategoriasFormComponent {
   constructor(
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CategoriasFormComponent>,
+    public dialogErroresRef: MatDialogRef<ErroresComponent>,
+    public dialog:MatDialog,
+    private categoriasService: CategoriasService,
+    private notificationsService: NotificationsService,
     @Inject(MAT_DIALOG_DATA) public categoria: Categoria
   ) {
     this.categoriaForm = this.formBuilder.group({});
@@ -43,8 +50,40 @@ export class CategoriasFormComponent {
       ...this.categoriaForm.value,
     };
 
-    this.dialogRef.close(this.categoria);
+    let accion: string;
+    let request;
+    if (this.categoria._id == '') {
+      request = this.categoriasService.insertCategoria(this.categoria);
+      accion = 'creada';
+    } else {
+      request = this.categoriasService.updateCategoria(this.categoria);
+
+      accion = 'modificada';
+    }
+
+    request.subscribe(
+      (data) => {
+        this.dialogRef.close(true);
+        this.notificationsService.openNotification(
+          'Categoría ' + accion + ' correctamente'
+        );
+      },
+      (error) => {
+        this.abrirErrorDialog(error);
+      }
+    );
+
   }
+
+  abrirErrorDialog(errores:any) {
+    const dialogErroresRef = this.dialog.open(ErroresComponent, {
+      width: '400px',
+      height: '300px',
+      data: { errores },
+    });
+
+  }
+
 
   reset() {
     this.resetProducto();

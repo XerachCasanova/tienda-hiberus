@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { NotificationsService } from './notifications.service';
-
 @Injectable({
   providedIn: 'root'
 })
 export class ErroresService {
 
-  constructor(private notificationsService:NotificationsService) { }
+  constructor() { }
 
   manageError(data:any){
 
@@ -14,9 +12,9 @@ export class ErroresService {
     if(data.status == 400) {
 
       let errores = new Array();
-      errores = data.error.errors.map((error:any) => error.msg);
   
-      this.notificationsService.openNotification('Los datos introducidos no son correctos: ' + errores.toString());
+      return data.error.errors.map((error:any) => error.msg);
+      
     }
   }
 }

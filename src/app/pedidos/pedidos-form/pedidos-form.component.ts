@@ -14,13 +14,16 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
+import { ErroresComponent } from 'src/app/errores/errores/errores.component';
 import { Pedido, PedidoDetalle } from 'src/app/models/pedido';
 import { Producto } from 'src/app/models/producto';
 import { Usuario } from 'src/app/models/usuario';
+import { NotificationsService } from 'src/app/notifications.service';
 import { ProductosListComponent } from 'src/app/productos/productos-list/productos-list.component';
 import { UsuariosFormComponent } from 'src/app/usuarios/usuarios-form/usuarios-form.component';
 import { UsuariosListComponent } from 'src/app/usuarios/usuarios-list/usuarios-list.component';
 import { UsuariosService } from 'src/app/usuarios/usuarios.service';
+import { PedidosService } from '../pedidos.service';
 import { PedidosFormDataSource } from './pedidos-form-datasource';
 
 //TODO: CONVERTIR EN FUNCIÓN EL CÁLCULO DEL PRECIO TOTAL DEL PEDIDO Y DEL PRECIO TOTAL DE CADA PRODUCTO
@@ -81,8 +84,11 @@ export class PedidosFormComponent {
     public dialog: MatDialog,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PedidosFormComponent>,
+    public dialogErroresRef: MatDialogRef<ErroresComponent>,
     public dialogRefCliente: MatDialogRef<UsuariosFormComponent>,
     private usuarioService: UsuariosService,
+    private pedidosService: PedidosService,
+    private notificationsService: NotificationsService,
     @Inject(MAT_DIALOG_DATA) public pedido: Pedido
   ) {
     this.pedidoDetalle = [];
@@ -197,10 +203,45 @@ export class PedidosFormComponent {
     };
 
     //Si estamos en modo actualizar, añadimos la id del pedido.
-    if (this.updateDeliState)
+    if (this.updateDeliState){
       this.pedido = { ...this.pedido, _id: this.pedidoForm.controls._id.value };
-    this.dialogRef.close(this.pedido);
+    }  
+      
+    let request;
+
+    let accion: string;
+  
+    if (!this.pedido._id || this.pedido._id == '') {
+      request = this.pedidosService.insertPedido(this.pedido);
+      accion = 'creado';
+    } else {
+      request = this.pedidosService.updatePedido(this.pedido);
+      accion = 'modificado';
+    }
+
+    request.subscribe(
+      (data) => {
+        this.dialogRef.close(true);
+        this.notificationsService.openNotification(
+          'Pedido ' + accion + ' correctamente'
+        );
+      },
+      (error) => {
+        this.abrirErrorDialog(error);
+      }
+    );
+
   }
+
+  abrirErrorDialog(errores:any) {
+    const dialogErroresRef = this.dialog.open(ErroresComponent, {
+      width: '400px',
+      height: '300px',
+      data: { errores },
+    });
+
+  }
+
 
   //-----AÑADIDO Y ELIMINACIÓN DE PRODUCTOS DEL DETALLE DEL PEDIDO //----------
 
