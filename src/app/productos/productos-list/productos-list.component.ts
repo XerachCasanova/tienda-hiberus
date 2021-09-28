@@ -23,7 +23,6 @@ import { NotificationsService } from 'src/app/notifications.service';
 import { ProductosFormComponent } from '../productos-form/productos-form.component';
 import { ProductosService } from '../productos.service';
 import { ProductosListDataSource } from './productos-list-datasource';
-
 export const ListPedidosCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'left',
   allowNegative: false,
@@ -55,7 +54,7 @@ export class ProductosListComponent implements AfterViewInit {
 
   producto!: Producto;
   categorias!: Categoria[];
-
+  showFilter: boolean;
   filterForm: FormGroup;
   filterMode: boolean;
   descripcionOpen: boolean;
@@ -99,6 +98,7 @@ export class ProductosListComponent implements AfterViewInit {
     this.listadoProductos = [];
 
     this.filterForm = this.formBuilder.group({});
+    this.showFilter = false;
     this.filterMode = false; //flag para saber si se está usando el buscador
 
     this.descripcionOpen = false; //flag para mantener abierto o cerrado el panel de ddescipciones

@@ -27,6 +27,7 @@ import 'moment/locale/es';
 
 import { ErroresComponent } from './errores/errores/errores.component';
 import { ErroresService } from './errores/errores/errores.service';
+import { AcotarStringPipe } from './pipes/acotar-string.pipe';
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -40,7 +41,11 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent, ErroresComponent],
+  declarations: [
+    AppComponent,
+     ErroresComponent, 
+    
+    ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -68,7 +73,6 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     PedidosService,
     MatDatepickerModule,
     MatNativeDateModule,
-
     {
       provide: CURRENCY_MASK_CONFIG,
       useValue: CustomCurrencyMaskConfig,

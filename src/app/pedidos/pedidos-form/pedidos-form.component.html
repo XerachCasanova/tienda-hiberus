@@ -147,7 +147,7 @@
                 </mat-card-header>
                 <mat-card-subtitle>Ref.: {{ producto.referencia }}</mat-card-subtitle>
                 <mat-card-content>
-                  <p>{{producto.descripcion}}</p>
+                  <p>{{producto.descripcion | acotarString:0:150}}...</p>
                   <p><strong>Precio: {{producto.precio}} €</strong></p>
                   <mat-divider></mat-divider>
                   <div class="acciones">

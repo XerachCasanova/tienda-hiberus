@@ -23,12 +23,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import { PipesModule } from '../pipes/pipes.module';
 
 
 @NgModule({
   declarations: [
     PedidosListComponent,
-    PedidosFormComponent
+    PedidosFormComponent,
   ],
   imports: [
     CommonModule,
@@ -52,8 +53,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatListModule,
     CurrencyMaskModule,
     MomentDateModule,
-
-    
+    PipesModule
   ],
 
 })

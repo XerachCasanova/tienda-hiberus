@@ -1,17 +1,25 @@
 <mat-toolbar>
-  <button mat-raised-button color="primary" (click)="abrirFormDialog()">
-    <mat-icon>add</mat-icon>Añadir
-  </button>
+  <div class="row">
+    <div class="col">
+      <button class="acciones" mat-raised-button color="primary" (click)="abrirFormDialog()">
+        <mat-icon >add</mat-icon>Añadir
+      </button>
+      <button class="acciones" mat-raised-button color="primary" (click)="showFilter=!showFilter">
+        <mat-icon>search</mat-icon>{{showFilter ? "Ocultar" : "Filtrar"}}
+      </button>
+    </div>
+  </div>
+  
 </mat-toolbar>
 
-
 <div class="container">
-  <div class="buscador">
+  <div [ngClass]="{ hidden: !showFilter }">
+  <div class="buscador" >
     <mat-card>
       <mat-card-content>
         <form [formGroup]="filterForm">
           <fieldset>
-            <legend>Buscador</legend>
+            <legend>Buscador {{showFilter}}</legend>
             <div class="row">
               <div class="col">
                 <mat-form-field class="filter-form-field">
@@ -53,18 +61,21 @@
                 </mat-form-field>
               </div>
             </div>
-            <div class="filter-form-button">
-              <button mat-raised-button color="primary" (click)="buscarUsuario()">
-                <mat-icon>search</mat-icon>
-              </button>
-              <button mat-raised-button color="primary" (click)="listarUsuarios()" [ngClass]="{ hidden: !filterMode }">
-                limpiar filtros
-              </button>
+            <div class="row">
+              <div class="col">
+                <button class="acciones" mat-raised-button color="primary" (click)="buscarUsuario()">
+                  <mat-icon>search</mat-icon>
+                </button>
+                <button class="acciones"  mat-raised-button color="warn" (click)="listarUsuarios()" [ngClass]="{ hidden: !filterMode }">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              </div>
             </div>
           </fieldset>
         </form>
       </mat-card-content>
     </mat-card>
+  </div>
   </div>
   <div class="tabla">
     <table mat-table class="full-width-table" matSort aria-label="Elements">

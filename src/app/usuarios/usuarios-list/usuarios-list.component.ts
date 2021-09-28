@@ -44,6 +44,7 @@ export class UsuariosListComponent {
 
   filterForm: FormGroup;
   filterMode: boolean;
+  showFilter: boolean;
 
   dataSource: UsuariosListDataSource;
   displayedColumns = [
@@ -85,6 +86,7 @@ export class UsuariosListComponent {
     this.listadoUsuarios = [];
 
     this.filterForm = this.formBuilder.group({});
+    this.showFilter = false;
     this.filterMode = false; //flag para saber si el buscador está activo
     this.buildForm();
   }

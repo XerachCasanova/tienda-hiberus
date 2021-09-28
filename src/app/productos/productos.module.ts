@@ -19,13 +19,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductosFormComponent } from './productos-form/productos-form.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { AcotarStringPipe } from '../pipes/acotar-string.pipe';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
   declarations: [
     ProductosListComponent,
     ProductosFormComponent,
-    AcotarStringPipe,
-
   ],
   imports: [
     CommonModule,
@@ -45,6 +44,7 @@ import { AcotarStringPipe } from '../pipes/acotar-string.pipe';
     MatToolbarModule,
     MatExpansionModule,
     CurrencyMaskModule,
+    PipesModule,
   ],
 })
 export class ProductosModule {}
