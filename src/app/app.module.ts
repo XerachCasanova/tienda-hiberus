@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProductosModule } from './productos/productos.module';
@@ -27,7 +27,11 @@ import 'moment/locale/es';
 
 import { ErroresComponent } from './errores/errores/errores.component';
 import { ErroresService } from './errores/errores/errores.service';
-import { AcotarStringPipe } from './pipes/acotar-string.pipe';
+import { LoginModule } from './login/login.module';
+import { AuthInterceptorService } from './authentication/auth-interceptor.service';
+import { ShellComponent } from './shell/shell.component';
+import { NotLoggedComponent } from './not-logged/not-logged.component';
+
 
 
 export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -43,8 +47,9 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
 @NgModule({
   declarations: [
     AppComponent,
-     ErroresComponent, 
-    
+    ErroresComponent,
+    ShellComponent,
+    NotLoggedComponent, 
     ],
   imports: [
     BrowserModule,
@@ -77,6 +82,11 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
       provide: CURRENCY_MASK_CONFIG,
       useValue: CustomCurrencyMaskConfig,
     },
+    {       
+      provide: HTTP_INTERCEPTORS,      
+      useClass: AuthInterceptorService,     
+      multi:true   
+     },
   ],
 
   bootstrap: [AppComponent],

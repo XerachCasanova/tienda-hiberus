@@ -131,7 +131,7 @@
       </ng-container>
 
       <ng-container *ngIf="isDetailDialog==null; else addProduct" matColumnDef="acciones">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
         <mat-cell *matCellDef="let row">
           <button mat-button color="warn" (click)="eliminarProducto(row)">
             <mat-icon>delete</mat-icon>

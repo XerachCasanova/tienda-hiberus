@@ -1,0 +1,35 @@
+<div class="container">
+  <form [formGroup]="userLoginForm" novalidate>
+    <mat-card class="productoform-card">
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Nombre de usuario" formControlName="username">
+              <mat-error *ngIf="userLoginForm.controls['username'].hasError('required')">
+                El nombre de usuario es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="Clave" formControlName="clave">
+              <mat-error *ngIf="userLoginForm.controls['clave'].hasError('required')">
+                La clave es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <div class="acciones">
+        <button mat-raised-button color="primary" [disabled]="userLoginForm.invalid"
+          (click)="login()">Login</button>
+      </div>
+    </mat-card>
+  </form>
+</div>

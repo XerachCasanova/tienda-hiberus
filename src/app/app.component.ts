@@ -9,6 +9,7 @@ import { map, shareReplay } from 'rxjs/operators';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -17,4 +18,14 @@ export class AppComponent {
     );
 
   constructor(private breakpointObserver: BreakpointObserver) {}
+
+  
+
+  isLogged():boolean{  
+    
+    let token = sessionStorage.getItem('tiendaXerach');
+    
+    return token ? true:false;
+
+  }
 }

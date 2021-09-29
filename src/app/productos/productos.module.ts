@@ -18,8 +18,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ProductosFormComponent } from './productos-form/productos-form.component';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { AcotarStringPipe } from '../pipes/acotar-string.pipe';
 import { PipesModule } from '../pipes/pipes.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from '../authentication/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,6 @@ import { PipesModule } from '../pipes/pipes.module';
     MatExpansionModule,
     CurrencyMaskModule,
     PipesModule,
-  ],
+  ]
 })
 export class ProductosModule {}

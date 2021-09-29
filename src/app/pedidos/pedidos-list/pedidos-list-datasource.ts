@@ -64,8 +64,11 @@ export class PedidosListDataSource extends DataSource<Pedido> {
     return data.sort((a, b) => {
       const isAsc = this.sort?.direction === 'asc';
       switch (this.sort?.active) {
-        case 'name': return compare(a.numeroPedido, b.numeroPedido, isAsc);
-        case 'id': return compare(+a.fecha, +b.fecha, isAsc);
+        case 'numeroPedido': return compare(a.numeroPedido, b.numeroPedido, isAsc);
+        case 'fecha': return compare(+a.fecha, +b.fecha, isAsc);
+        case 'precioTotal': return compare(+a.precioTotal, +b.precioTotal, isAsc);
+        case 'cliente': return compare(+a.cliente, +b.cliente, isAsc);
+        
         default: return 0;
       }
     });

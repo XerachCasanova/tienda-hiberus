@@ -4,6 +4,11 @@
   max-height: 500px;
 }
 
+.mat-header-cell {
+  background: #673ab7;
+  color: #fff;
+}
+
 .mat-table {
   overflow: auto;
   max-height: 500px;

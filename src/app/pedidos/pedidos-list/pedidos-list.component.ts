@@ -59,7 +59,7 @@ export class PedidosListComponent implements AfterViewInit {
   ) {
     breakpointObserver.observe(['(max-width: 600px)']).subscribe((result) => {
       this.displayedColumns = result.matches
-        ? ['numeroPedido', 'fecha', 'cliente', 'precioTotal', 'acciones']
+        ? ['numeroPedido', 'fecha', 'cliente', 'precioTotal',  'acciones']
         : [
             'numeroPedido',
             'fecha',
