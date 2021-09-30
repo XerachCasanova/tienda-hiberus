@@ -34,8 +34,6 @@ export class LoginComponent implements OnInit {
 
     this.userLoginForm = this.formBuilder.group({});
 
-    
-
 
   }
 
@@ -45,7 +43,7 @@ export class LoginComponent implements OnInit {
 
     console.log(token);
     if (token){
-      this.router.navigate(['/pedidos']);
+      this.router.navigate(['/panel/pedidos']);
     }
 
     this.userLoginForm = this.formBuilder.group(this.userLogin);
@@ -64,7 +62,7 @@ export class LoginComponent implements OnInit {
       if(data.token){
 
         sessionStorage.setItem('tiendaXerach', JSON.stringify(data.token));
-        this.router.navigate(['/pedidos']);
+        this.router.navigate(['/panel/pedidos']);
 
       } else {
         

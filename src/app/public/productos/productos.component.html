@@ -1,0 +1,11 @@
+<div class="container">
+  <mat-card *ngFor="let prod of obs | async">
+    <mat-card-title>{{prod.titulo}}</mat-card-title>
+    <mat-card-subtitle>{{prod.descripcion}}</mat-card-subtitle>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" (click) = "addToCarrito(prod)">Añadir al carrito</button>
+    </mat-card-actions>
+  </mat-card>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+ 

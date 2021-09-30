@@ -1,0 +1,17 @@
+
+  <mat-toolbar color="primary">
+    <span>Cómprate algo...</span>
+    <span class="space-toolbar"></span>
+    <button mat-icon-button matBadge={{nProductosBudget}} [matBadgeHidden]="nProductosBudget == 0" matBadgeColor="warn" >
+      <mat-icon  (click) ="abrirFormProductosDialog()" >shopping_cart</mat-icon>
+    </button>
+    
+  </mat-toolbar>
+  <div class="content">
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </div>
+  
+  
+  <mat-toolbar class="footer" color="primary">
+    <span>&copy; Xerach</span>
+  </mat-toolbar>

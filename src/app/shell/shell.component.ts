@@ -22,4 +22,12 @@ export class ShellComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isLogged():boolean{  
+    
+    let token = sessionStorage.getItem('tiendaXerach');
+    
+    return token ? true:false;
+
+  }
+
 }

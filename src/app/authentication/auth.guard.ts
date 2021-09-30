@@ -15,6 +15,7 @@ export class AuthGuard implements CanActivate {
 
     let token = sessionStorage.getItem('tiendaXerach');
     
+  
     if(token) return true
 
     

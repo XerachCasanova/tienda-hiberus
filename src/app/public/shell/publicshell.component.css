@@ -4,7 +4,7 @@
 }
 
 .content {
-  height: calc(100vh - 150px);
+  height: 100vh;
   padding: 10px;
 }
 
@@ -12,7 +12,6 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  justify-content: center;
   top: 0;
   bottom: 0;
   left: 0;

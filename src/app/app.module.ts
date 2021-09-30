@@ -27,10 +27,11 @@ import 'moment/locale/es';
 
 import { ErroresComponent } from './errores/errores/errores.component';
 import { ErroresService } from './errores/errores/errores.service';
-import { LoginModule } from './login/login.module';
 import { AuthInterceptorService } from './authentication/auth-interceptor.service';
 import { ShellComponent } from './shell/shell.component';
 import { NotLoggedComponent } from './not-logged/not-logged.component';
+import { PublicshellComponent } from './public/shell/publicshell.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 
@@ -49,7 +50,8 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     AppComponent,
     ErroresComponent,
     ShellComponent,
-    NotLoggedComponent, 
+    NotLoggedComponent,
+    PublicshellComponent
     ],
   imports: [
     BrowserModule,
@@ -69,6 +71,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatBadgeModule,
   ],
   providers: [
     ErroresService,
