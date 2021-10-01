@@ -17,6 +17,11 @@ const routes: Routes = [
         path: 'productos', 
         loadChildren: () => import('../productos/productos.module').then(m => m.ProductosModule) 
         
+      },
+      {
+        path: 'pedidos', 
+        loadChildren: () => import('../pedido-form-public/pedido-form-public.module').then(m => m.PedidoFormPublicModule) 
+        
       }
     ]
      

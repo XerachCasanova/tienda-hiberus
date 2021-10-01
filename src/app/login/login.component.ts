@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { NotificationsService } from '../notifications.service';
 import { LoginService } from './login.service';
@@ -24,7 +25,9 @@ export class LoginComponent implements OnInit {
     private notificationsService:NotificationsService,
     private formBuilder:FormBuilder,
     private loginService:LoginService,
-    private router:Router
+    private router:Router,
+    @Optional() @Inject(MAT_DIALOG_DATA) public dialog: any,
+    @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     ) { 
     
     this.userLogin = {
@@ -38,7 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     let token = sessionStorage.getItem('tiendaXerach');
 
     console.log(token);
@@ -62,7 +65,8 @@ export class LoginComponent implements OnInit {
       if(data.token){
 
         sessionStorage.setItem('tiendaXerach', JSON.stringify(data.token));
-        this.router.navigate(['/panel/pedidos']);
+
+        this.dialog.isDialog ? this.dialogRef.close(): this.router.navigate(['/panel/pedidos']);
 
       } else {
         

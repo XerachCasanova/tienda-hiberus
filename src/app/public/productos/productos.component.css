@@ -1,5 +1,31 @@
-.container{
+.container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
 
-  width: 80%;
+.cards {
+  min-width: 100px;
+  margin: 10px auto;
+  width: 40%;
+}
 
+.mat-card{
+  margin: 10px;
+  max-width: 100%
+}
+
+
+.row {
+  display: block;
+  
+  margin-bottom: 10px;
+}
+
+.col {
+  flex: 1;
+  margin-right: 20px;
 }

@@ -123,7 +123,7 @@ export class PedidosFormComponent {
         localidad: '',
         cp: '',
       },
-    };
+    }; 
   }
 
   private buildForm() {
@@ -360,7 +360,7 @@ export class PedidosFormComponent {
             ...productoEnDetalle,
           ];
 
-          this.dataSource.setData(this.pedidoDetalle);
+          this.dataSource.setData(this.pedidoDetalle); 
         }
       }
     });

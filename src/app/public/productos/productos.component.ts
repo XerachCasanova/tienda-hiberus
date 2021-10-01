@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
+import { Pedido, PedidoDetalle } from 'src/app/models/pedido';
 import { Producto } from 'src/app/models/producto';
 import { ProductosService } from 'src/app/productos/productos.service';
 
@@ -21,7 +22,7 @@ export class ProductosComponent implements OnInit, OnDestroy {
 
   dataSource: MatTableDataSource<Producto> = new MatTableDataSource<Producto>(this.listadoProductos);
 
-  carrito: Producto[];
+  carrito: PedidoDetalle[];
 
   constructor(
     private productosService: ProductosService) { 
@@ -48,7 +49,17 @@ export class ProductosComponent implements OnInit, OnDestroy {
 
   addToCarrito(producto:Producto){
 
-    this.carrito.push(producto);
+
+    this.carrito.push({
+      cantidad: 1,
+      descuento: 0,
+      refProducto: producto.referencia,
+      tituloProducto: producto.titulo,
+      precioUnitario: producto.precio,
+      precioTotal: producto.precio,
+    });
+
+    
 
     this.carritoToSend.emit(this.carrito);
   }

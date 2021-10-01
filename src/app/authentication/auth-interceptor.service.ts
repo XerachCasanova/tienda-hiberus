@@ -17,6 +17,7 @@ export class AuthInterceptorService implements HttpInterceptor{
     }
 
     const token = sessionStorage.getItem('tiendaXerach');
+    
 
   
     let modifiedRequest = req;

@@ -18,12 +18,24 @@ export class UsuariosService {
   getUsuarios() {
     return this.httpClient.get(this.urlBase);
   }
+  
+  verifyUser(){
+    return this.httpClient.get(this.urlBase + 'verifyToken');
+  
+  }
 
   findUsuario(usuario: Usuario): Observable<any> {
     let url = this.urlBase + usuario._id;
 
     return this.httpClient.get(url);
   }
+
+  findMe(username: string): Observable<any> {
+    let url = this.urlBase + 'me';
+
+    return this.httpClient.post(url, username);
+  }
+
 
   findUsuarioById(id: string): Observable<any> {
     let url = this.urlBase + id;

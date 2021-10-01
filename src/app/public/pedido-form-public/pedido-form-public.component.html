@@ -1,0 +1,138 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Datos de cliente </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="pedidoForm" novalidate>
+            <div *ngIf="(cliente)">
+              <div><span class="datos-label">Nombre</span> {{pedido.usuario.nombre}}</div>
+              <div><span class="datos-label">Apellido</span> {{pedido.usuario.apellido}}</div>
+              <div><span class="datos-label">DNI</span>{{pedido.usuario.dni}}</div>
+              <div><span class="datos-label">E-Mail</span>{{pedido.usuario.email}}</div>
+              <div formGroupName="direccionesGroup">
+                <div class="row">
+                  <div class="col">
+                    <mat-label>Elige una dirección existente para autocompletar los campos de dirección.</mat-label>
+                    <mat-select (selectionChange)="onChangeDir($event.value)">
+                      <mat-option *ngFor="let direccion of pedido.usuario.direcciones; let i index" [value]="direccion">
+                        {{direccion.calle}} {{direccion.localidad}} {{direccion.cp}} {{direccion.provincia}}
+  
+                      </mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <mat-label>Calle</mat-label>
+                      <input matInput formControlName="calle">
+                      <mat-error *ngIf="pedidoForm.get('direccionesGroup.calle')?.errors">
+                        La calle es <strong>requerida</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <mat-label>Localidad</mat-label>
+                      <input matInput  formControlName="localidad">
+                      <mat-error *ngIf="pedidoForm.get('direccionesGroup.localidad')?.errors">
+                        La localidad es <strong>requerida</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <mat-label>Provincia</mat-label>
+                      <input matInput formControlName="provincia">
+                      <mat-error *ngIf="pedidoForm.get('direccionesGroup.provincia')?.errors">
+                        La provincia es <strong>requerida</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col">
+                    <mat-form-field class="full-width">
+                      <mat-label>Código Postal</mat-label>
+                      <input matInput class="full-width" formControlName="cp">
+                      <mat-error *ngIf="pedidoForm.get('direccionesGroup.cp')?.errors">
+                        El código postal es <strong>requerido</strong>
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Total de pedido: {{precioTotalCarrito}} € </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <table mat-table [dataSource]="dataSource" class="full-width">
+
+            <ng-container matColumnDef="cantidad">
+              <mat-header-cell *matHeaderCellDef><span class="mobile-label">Cantidad:</span>Cantidad </mat-header-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Cantidad:</span> 
+                <mat-form-field style="width: 80%" >
+                  <input matInput type="number" (change)="setPrecioTotal(detalle)"  [(ngModel)]="detalle.cantidad">
+                </mat-form-field>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="referencia">
+              <mat-header-cell *matHeaderCellDef> Referencia </mat-header-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Ref.:</span>{{detalle.referencia}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="producto">
+              <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Producto:</span>{{detalle.titulo}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="precioUnitario">
+              <mat-header-cell *matHeaderCellDef> Precio U. </mat-header-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Precio/ud.:</span>{{detalle.precio}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="precioTotal">
+              <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Total:</span> {{detalle.precioTotal}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+              <mat-header-cell *matHeaderCellDef >Acciones</mat-header-cell>
+              <mat-cell *matCellDef="let detalle; let i = index">
+                <button mat-button color="warn" (click)="deleteProducto(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let detalle; columns: displayedColumns;"></mat-row>
+          </table>
+        </mat-card-content>
+
+      </mat-card>
+      <button mat-raised-button color="primary" (click)="comprar()">
+        Tramitar pedido
+     </button>
+      <button mat-raised-button color="primary" (click)="cancelarCarrito()">
+         Volver
+      </button>
+    </div>
+    
+  </div>
+</div>
