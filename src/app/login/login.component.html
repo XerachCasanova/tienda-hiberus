@@ -28,8 +28,15 @@
       </mat-card-content>
       <div class="acciones">
         <button mat-raised-button color="primary" [disabled]="userLoginForm.invalid"
-          (click)="login()">Login</button>
+          (click)="login()"><mat-icon>login</mat-icon></button>
+          <button mat-raised-button color="warn" (click) = cancelLogin()><mat-icon>cancel</mat-icon></button>
       </div>
+
     </mat-card>
   </form>
+  <div class="acciones">
+    <button mat-button color="primary" (click)="abrirSignUpDialog()">
+      <mat-icon>account_circle</mat-icon> Regístrate
+    </button>
+  </div>
 </div>

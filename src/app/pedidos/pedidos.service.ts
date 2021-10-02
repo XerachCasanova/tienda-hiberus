@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Pedido } from '../models/pedido';
+import { Usuario } from '../models/usuario';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +18,13 @@ export class PedidosService {
 
   getPedidos() {
     return this.httpClient.get(this.urlBase);
+  }
+
+  getPedidosUsuario(username:string) {
+    let url = this.urlBase + '/usuario/' + username;
+
+    console.log(url)
+    return this.httpClient.get(url);
   }
 
   findPedido(pedido: Pedido): Observable<any> {

@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ErroresComponent } from 'src/app/errores/errores/errores.component';
+import { ErroresService } from 'src/app/errores/errores/errores.service';
 import { tipoUsuario, Usuario } from 'src/app/models/usuario';
 import { NotificationsService } from 'src/app/notifications.service';
 import { UsuariosService } from 'src/app/usuarios/usuarios.service';
@@ -21,9 +24,12 @@ export class SignupComponent implements OnInit {
 
   constructor(
     private notificationsService: NotificationsService,
+    public dialogErrores:MatDialog,
     private formBuilder:FormBuilder, 
     private route: Router,
-    private loginService:LoginService) { 
+    private loginService:LoginService,
+    @Inject(MAT_DIALOG_DATA) public dialogSignUp: any,
+   public dialogRef: MatDialogRef<SignupComponent>,) { 
 
     this.userSignUpForm = this.formBuilder.group({});
 
@@ -60,14 +66,32 @@ export class SignupComponent implements OnInit {
 
     this.loginService.signUp(this.usuario).subscribe(data => {
       this.notificationsService.openNotification('Te has registrado correctamente.');
-      this.route.navigate(['/login']);
+      
+      this.route.navigate(['/']);
+
+      this.dialogRef.close({signUp: true});
+
     
     }, (error) => {
-   
-      //this.abrirErrorDialog(error)
+       
+     
+      this.abrirFormErrorsDialog(error)
       
     });
     
+  }
+
+  abrirFormErrorsDialog(error:any) {
+    this.dialogErrores.open(ErroresComponent, { 
+     width: '350px',
+     height: '300px',
+     data: { error },
+   });
+
+ }
+
+  cancel(){
+    this.dialogRef.close({signUp: false});
   }
 
 }

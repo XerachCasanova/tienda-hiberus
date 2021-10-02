@@ -16,7 +16,7 @@
               <div formGroupName="direccionesGroup">
                 <div class="row">
                   <div class="col">
-                    <mat-label>Elige una dirección existente o escribe una nueva.</mat-label>
+                    <mat-label><span class="datos-label">Dirección: </span>Elige una dirección existente o escribe una nueva.</mat-label>
                     <mat-select (selectionChange)="onChangeDir($event.value)">
                       <mat-option *ngFor="let direccion of pedido.usuario.direcciones; let i index" [value]="direccion">
                         {{direccion.calle}} {{direccion.localidad}} {{direccion.cp}} {{direccion.provincia}}

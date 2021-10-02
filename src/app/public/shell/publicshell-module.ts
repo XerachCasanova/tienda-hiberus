@@ -10,11 +10,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { PublicShellRoutingModule } from './publicshell-routing.module';
 import { PublicshellComponent } from './publicshell.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import { PedidosModule } from 'src/app/pedidos/pedidos.module';
 
 
 @NgModule({
     declarations: [
-  
+        
     ],
     imports: [
         PublicShellRoutingModule,
@@ -27,6 +28,7 @@ import {MatBadgeModule} from '@angular/material/badge';
         MatListModule,
         MatSnackBarModule,
         MatBadgeModule,
+
         
     ],
     bootstrap: [PublicshellComponent],

@@ -7,6 +7,7 @@ import { MatTable } from '@angular/material/table';
 import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { Pedido } from 'src/app/models/pedido';
 import { NotificationsService } from 'src/app/notifications.service';
+import { UsuariosService } from 'src/app/usuarios/usuarios.service';
 import { PedidosFormComponent } from '../pedidos-form/pedidos-form.component';
 import { PedidosService } from '../pedidos.service';
 import { PedidosListDataSource } from './pedidos-list-datasource';
@@ -42,6 +43,8 @@ export class PedidosListComponent implements AfterViewInit {
 
   pedido!: Pedido;
 
+  isAdmin:boolean;
+
   displayedColumns = [
     'numeroPedido',
     'fecha',
@@ -55,7 +58,8 @@ export class PedidosListComponent implements AfterViewInit {
     breakpointObserver: BreakpointObserver,
     private notificationsService: NotificationsService,
     private pedidosService: PedidosService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private usuariosService: UsuariosService
   ) {
     breakpointObserver.observe(['(max-width: 600px)']).subscribe((result) => {
       this.displayedColumns = result.matches
@@ -69,22 +73,56 @@ export class PedidosListComponent implements AfterViewInit {
             'acciones',
           ];
     });
-
+    
+    this.isAdmin = false;
     this.dataSource = new PedidosListDataSource([]);
     this.listadoProductos = [];
   }
 
+  ngOnInit(){
+    this.usuariosService.verifyUser().subscribe((user:any) => {
+      
+     
+      if(user.datosSecretos.username.tipoUsuario === 'Administrador') {
+        this.isAdmin = true
+
+        
+        
+        this.listarPedidos();
+      };
+
+    })
+  }
+
   ngAfterViewInit(): void {
+    
     this.listarPedidos();
   }
 
   listarPedidos() {
-    this.pedidosService.getPedidos().subscribe((data: any) => {
-      this.dataSource = new PedidosListDataSource(data);
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.table.dataSource = this.dataSource;
-    });
+    
+    let request;
+
+    
+    if (this.isAdmin){
+
+      request = this.pedidosService.getPedidos();
+
+    } else {
+      
+      let payload:any = sessionStorage.getItem('payload');
+      payload = JSON.parse(payload);
+      request = this.pedidosService.getPedidosUsuario(payload.username.username);
+      
+    }
+
+    request?.subscribe((data:any) => {
+        this.dataSource = new PedidosListDataSource(data);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.table.dataSource = this.dataSource;
+    });   
+
   }
 
   eliminarPedido(pedidoToDelete: Pedido) {

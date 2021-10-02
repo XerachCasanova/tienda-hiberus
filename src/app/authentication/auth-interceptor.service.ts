@@ -46,7 +46,7 @@ export class AuthInterceptorService implements HttpInterceptor{
 
       if(error.status == codigo) {
         sessionStorage.removeItem('tiendaXerach')
-        //this.router.navigate(["/panel/login"]);
+     
 
       }
       if(error.status==500) {
@@ -55,7 +55,7 @@ export class AuthInterceptorService implements HttpInterceptor{
         
       }
       else{
-        sessionStorage.removeItem('tiendaXerach')
+        //TODO: FALTA IMPLEMENTAR BIEN TODOS LOS ERRORES DEVUELTOS.
       }
     }
   

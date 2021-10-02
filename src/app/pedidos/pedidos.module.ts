@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { PedidosRoutingModule } from './pedidos-routing.module';
 import { PedidosListComponent } from './pedidos-list/pedidos-list.component';
 import { MatTableModule } from '@angular/material/table';
@@ -54,7 +53,7 @@ import { PipesModule } from '../pipes/pipes.module';
     CurrencyMaskModule,
     MomentDateModule,
     PipesModule
-  ],
+  ]
 
 })
 export class PedidosModule { }

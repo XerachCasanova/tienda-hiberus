@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PedidoFormPublicRoutingModule } from './pedido-form-public-routing.module';
 import { PedidoFormPublicComponent } from './pedido-form-public.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +18,10 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+import { HttpClientModule } from '@angular/common/http';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -27,7 +30,7 @@ import { MatListModule } from '@angular/material/list';
   ],
   imports: [
     CommonModule,
-    PedidoFormPublicRoutingModule,
+    HttpClientModule,
     FormsModule,
     MatTableModule,
     MatPaginatorModule,
@@ -45,6 +48,9 @@ import { MatListModule } from '@angular/material/list';
     MatExpansionModule,
     MatDividerModule,
     MatListModule,
+    CurrencyMaskModule,
+    MomentDateModule,
+    PipesModule
   ]
 })
 export class PedidoFormPublicModule { }

@@ -7,14 +7,17 @@ export class ErroresService {
   constructor() { }
 
   manageError(data:any){
-
-    //TODO: Gestionar los mensajes de errores fuera de las notificaciones y que salgan listados en cada pantalla.
-    if(data.status == 400) {
-
-      let errores = new Array();
+    
+    console.log(data)
+    
+    if(data.error && data.error.status) {
   
-      return data.error.errors.map((error:any) => error.msg);
+      return data.error.error.errors.map((error:any) => error.msg);
       
+    } else {
+      
+      return [data.msg]
+
     }
   }
 }

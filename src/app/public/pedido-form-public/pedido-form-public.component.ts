@@ -40,7 +40,7 @@ export class PedidoFormPublicComponent implements OnInit {
     private notificationsService:NotificationsService
     ) { 
 
-    
+      
     this.pedidoDetalle = [];
     this.dataSource = new PedidosFormDataSource([...this.pedido.carrito]);
     this.pedidoForm = this.formBuilder.group({});
@@ -54,13 +54,17 @@ export class PedidoFormPublicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    
     
     this.buildForm();
-
+  
+  
     //Al iniciar, sumamos el precio total del array del carrito y rellenamos la tabla con sus datos.
     this.precioTotalCarrito = this.pedido.carrito.reduce( (a:any, b:any) => a + b.precioTotal, 0);
+   
     this.dataSource.setData([...this.pedido.carrito]);
+
+    
   }
 
   buildForm(){
@@ -73,6 +77,7 @@ export class PedidoFormPublicComponent implements OnInit {
       fecha: Date.now()
     })
 
+
     this.pedidoForm.setControl('clienteGroup', this.formBuilder.group({
       id: this.pedido.usuario._id,
       nombre: this.pedido.usuario.nombre,
@@ -81,25 +86,17 @@ export class PedidoFormPublicComponent implements OnInit {
       dni: this.pedido.usuario.dni,
     }));
 
-    this.pedidoForm.setControl('direccionesGroup', this.formBuilder.group(this.pedido.usuario.direcciones[0]));
+ 
+    this.pedidoForm.setControl('direccionesGroup', this.formBuilder.group(
+      {
+        calle: ['', Validators.required],
+        localidad: ['', Validators.required],
+        provincia: ['', Validators.required],
+        cp: ['', Validators.required],
+      }
+    ));
 
-    this.pedidoForm
-      .get('direccionesGroup')
-      ?.get('calle')
-      ?.setValidators(Validators.required);
-    this.pedidoForm
-      .get('direccionesGroup')
-      ?.get('localidad')
-      ?.setValidators(Validators.required);
-    this.pedidoForm
-      .get('direccionesGroup')
-      ?.get('provincia')
-      ?.setValidators(Validators.required);
-    this.pedidoForm
-      .get('direccionesGroup')
-      ?.get('cp')
-      ?.setValidators(Validators.required);
-
+     
       this.pedidoForm.setControl(
         'detalleGroup',
         this.formBuilder.group({

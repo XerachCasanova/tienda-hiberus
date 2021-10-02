@@ -17,6 +17,7 @@
 
 .card {
   flex: 0 12 calc(30% - 1em);
+  margin: 15px;
 }
 
 .mat-card{
@@ -24,7 +25,7 @@
   justify-content: start; 
   flex-direction: column; 
   flex-wrap: wrap;
-  margin: 15px;
+  
 
 }
 .mat-card-actions{

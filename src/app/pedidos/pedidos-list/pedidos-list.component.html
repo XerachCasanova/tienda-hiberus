@@ -32,8 +32,8 @@
     </ng-container>
 
     <ng-container matColumnDef="acciones">
-      <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
-      <mat-cell *matCellDef="let row">
+      <mat-header-cell *matHeaderCellDef [ngClass]="{hidden: !isAdmin }">Acciones</mat-header-cell>
+      <mat-cell *matCellDef="let row"  [ngClass]="{hidden: !isAdmin }">
         <button mat-button color="warn" (click)="eliminarPedido(row)">
           <mat-icon>delete</mat-icon>
         </button>

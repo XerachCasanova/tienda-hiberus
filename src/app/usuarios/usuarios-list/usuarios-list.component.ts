@@ -17,7 +17,6 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
 import { tipoUsuario, Usuario } from 'src/app/models/usuario';
 import { UsuariosService } from '../usuarios.service';
 import { UsuariosListDataSource } from './usuarios-list.datasource';

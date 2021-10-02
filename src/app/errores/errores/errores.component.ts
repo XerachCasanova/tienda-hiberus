@@ -19,7 +19,10 @@ export class ErroresComponent implements OnInit {
 
   ngOnInit(): void {
     
-    this.errores = this.erroresService.manageError(this.data.errores);
+
+      this.errores = this.erroresService.manageError(this.data);
+
+    
  
   }
 

@@ -1,3 +1,9 @@
+.hidden {
+
+  display:none;
+
+}
+
 .mat-header-cell {
   background: #673ab7;
   color: #fff;

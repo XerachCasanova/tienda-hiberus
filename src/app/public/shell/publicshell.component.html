@@ -2,13 +2,22 @@
   <mat-toolbar color="primary">
     <span>Cómprate algo...</span>
     <span class="space-toolbar"></span>
+    
+    <a mat-icon-button routerLink="/panel/login">
+      <mat-icon [ngClass]="{hidden: !isAdmin }" >settings</mat-icon>
+    </a>
+    <a mat-icon-button routerLink="/pedidos">
+      <mat-icon [ngClass]="{hidden: !isLogged }" >reorder</mat-icon>
+    </a>
+    <button mat-icon-button >
+      <mat-icon [ngClass]="{hidden: !isLogged }" (click) = logout()>logout</mat-icon>
+    </button>
     <button mat-icon-button matBadge={{nProductosBudget}} [matBadgeHidden]="nProductosBudget == 0" matBadgeColor="warn" >
       <mat-icon  (click) ="abrirFormDialog()" >shopping_cart</mat-icon>
     </button>
-    <a mat-icon-button routerLink="/panel/login">
-      <mat-icon [ngClass]="{hidden: !isAdmin }">settings</mat-icon>
+    <a  routerLink="/" mat-icon-button matBadge={{nProductosBudget}} [matBadgeHidden]="nProductosBudget == 0" matBadgeColor="warn" >
+      <mat-icon>home</mat-icon>
     </a>
-    
   </mat-toolbar>
   <div class="content">
     <router-outlet (activate)="onActivate($event)"></router-outlet>

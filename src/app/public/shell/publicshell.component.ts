@@ -5,6 +5,7 @@ import { UsuariosService } from 'src/app/usuarios/usuarios.service';
 import { LoginComponent } from 'src/app/login/login.component';
 import { PedidoDetalle } from 'src/app/models/pedido';
 import { UserAuthService } from 'src/app/authentication/user-auth.service';
+import { Router } from '@angular/router';
 
 //TODO: Convertir la lógica del carrito en un behavior subject. Actualmente se gestiona
 //a través de un onActivate en el router outlet.
@@ -17,29 +18,42 @@ import { UserAuthService } from 'src/app/authentication/user-auth.service';
   styleUrls: ['./publicshell.component.css']
 })
 export class PublicshellComponent implements OnInit {
-  isAdmin!:boolean;
+  isAdmin:boolean;
+  isLogged:boolean;
   nProductosBudget:number
   carrito:PedidoDetalle[];
   constructor(
     public dialog: MatDialog,
     private usuariosService: UsuariosService,
-    private userAuthService: UserAuthService,
+    private router:Router
 
     ) { 
-    this.userAuthService.isAdmin().subscribe(admin => this.isAdmin = admin);
+    
+    this.isAdmin=false;
+    this.isLogged=false;
     this.carrito = []; 
     this.nProductosBudget = 0;
   }
 
   ngOnInit(): void {
+
+    this.resetSettings();
+
+    this.setUserSettings();
+ 
+
   }
 
   //Verificamos el usuario contra el servidor y llamamos a la función que abre el dialog del pedido
   //pasando los datos del payload
+
   //TODO: estuve intentando crear un servicio que verifique al usuario y en el mismo observable
   //se busque también en la base de datos el usuario a partir del payload, pero soy incapaz de
   //hacer que devuelva los datos del usuario en un solo observable anidando con map. (Devuelve 
   //un observable y no los datos del usuario.)
+
+  //TODO: Ahora que guardo el payload en sessionstorage, debo hacer simplemente el verifyToken 
+  //y a partir de ahí comprobar si coincide con la sesión, en vez de volver a consultar al server.
 
   async abrirFormDialog(){
     
@@ -54,9 +68,15 @@ export class PublicshellComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(async (result) => {
         
-        this.usuariosService.verifyUser().subscribe(user => {
-          this.abrirDialogPedido(user)
-        });
+        if(result) {
+          this.usuariosService.verifyUser().subscribe((user:any) => {
+            
+            this.abrirDialogPedido(user)
+            this.setUserSettings();
+            
+          });
+        }
+        
       })
 
     })
@@ -66,10 +86,13 @@ export class PublicshellComponent implements OnInit {
   //abrimos el dialog del pedido a partir del usuario ya verificado que se recibe como parámetro
   //y enviamos el contenido del array del carrito y los datos del usuario.
 
-  abrirDialogPedido(usuarioVerificado:any){
-    
-    this.usuariosService.findMe(usuarioVerificado.datosSecretos.username).subscribe(data => {
 
+  abrirDialogPedido(usuarioVerificado:any){
+
+ 
+    this.usuariosService.findMe(usuarioVerificado.datosSecretos.username).subscribe(data => {
+      
+      
       let dialogRef = this.dialog.open(PedidoFormPublicComponent, {
         width: '1000px',
         height: '800px',
@@ -90,13 +113,15 @@ export class PublicshellComponent implements OnInit {
   //suscribir a esos cambios.
   onActivate(dataChild:any) {
     
-    dataChild.carritoToSend.subscribe((data:any) => {
+    if(dataChild.carritoToSend){
+      dataChild.carritoToSend.subscribe((data:any) => {
       
-      //Llamamos a la función que se encarga de agrupar los productos repetidos.
-      this.agruparProductos(data)
-      this.nProductosBudget = data.length
-   })
-
+        //Llamamos a la función que se encarga de agrupar los productos repetidos.
+        this.agruparProductos(data)
+        this.nProductosBudget = data.length
+     })
+    }
+ 
  }
 
  agruparProductos(data:PedidoDetalle[]){
@@ -108,7 +133,7 @@ export class PublicshellComponent implements OnInit {
       data.forEach((producto:PedidoDetalle)=>{
 
       if (this.carrito.filter(prod => prod.refProducto == producto.refProducto ).length == 0){
-        console.log(producto)
+        
         this.carrito.push({...producto});
       }
 
@@ -127,6 +152,39 @@ export class PublicshellComponent implements OnInit {
     })
   
    
+ }
+
+ logout(){
+   sessionStorage.clear();
+   localStorage.clear();
+
+   this.resetSettings();
+
+   
+ }
+
+ //Verifico el usuario y guardo el payload en la sessionStorage
+
+ setUserSettings(){
+  
+    this.usuariosService.verifyUser().subscribe((user:any) => {
+
+    sessionStorage.setItem('payload', JSON.stringify(user.datosSecretos));
+
+    if(user.datosSecretos) this.isLogged=true;
+    if(user.datosSecretos.username.tipoUsuario == 'Administrador') this.isAdmin = true;
+
+  })
+
+ }
+
+ resetSettings(){
+  
+    this.isAdmin=false;
+    this.isLogged=false;
+    this.carrito = []; 
+    this.nProductosBudget = 0;
+
  }
 
 }
