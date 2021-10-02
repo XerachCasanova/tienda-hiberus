@@ -13,8 +13,8 @@ export class UserAuthService {
   isAdmin(){
 
     return this.usuariosService.verifyUser().pipe(map((user:any) => {
-     
-      if(user.datosSecretos.username.tipoUsuario === 'Admin') {
+        console.log(user.datosSecretos.username.tipoUsuario)
+      if(user.datosSecretos.username.tipoUsuario === 'Administrador') {
         return true
       }
       else return false;
