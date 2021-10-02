@@ -5,6 +5,9 @@
     <button mat-icon-button matBadge={{nProductosBudget}} [matBadgeHidden]="nProductosBudget == 0" matBadgeColor="warn" >
       <mat-icon  (click) ="abrirFormDialog()" >shopping_cart</mat-icon>
     </button>
+    <a mat-icon-button routerLink="/panel/login">
+      <mat-icon [ngClass]="{hidden: !isAdmin }">settings</mat-icon>
+    </a>
     
   </mat-toolbar>
   <div class="content">

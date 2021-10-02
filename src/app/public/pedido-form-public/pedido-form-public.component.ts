@@ -29,7 +29,8 @@ export class PedidoFormPublicComponent implements OnInit {
     'precioTotal',
     'acciones',
   ];
- 
+
+  //Inyectamos en el dialog el array que contiene el pedido y el usuario.
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,30 +55,20 @@ export class PedidoFormPublicComponent implements OnInit {
 
   ngOnInit(): void {
 
+    
     this.buildForm();
 
-    let carritoSinDuplicados = this.pedido.carrito.filter((item:any,index:number)=>{
-      return this.pedido.carrito.indexOf(item) === index;
-    })
-
-    
-
-    carritoSinDuplicados.forEach((producto:any) => {
-
-
-      for(let i=0; i<this.pedido.carrito.length; i++){
-        if (this.pedido.carrito[i].referencia == producto.referencia) producto.cantidad++;
-      }
-
-      producto.precioTotal = producto.precio * producto.cantidad;
-    })
-
-    this.pedido.carrito = carritoSinDuplicados;
+    //Al iniciar, sumamos el precio total del array del carrito y rellenamos la tabla con sus datos.
     this.precioTotalCarrito = this.pedido.carrito.reduce( (a:any, b:any) => a + b.precioTotal, 0);
     this.dataSource.setData([...this.pedido.carrito]);
   }
 
   buildForm(){
+
+    //TODO: EL formulario de pedidos es prácticamente el mismo para el back y el front, se puede
+    //crear un servicio que reciba los datos y construya el formulario para ambos.
+
+    //construimos el formulario con los distintos datos,
     this.pedidoForm = this.formBuilder.group({
       fecha: Date.now()
     })
@@ -119,13 +110,13 @@ export class PedidoFormPublicComponent implements OnInit {
           descuento: [0, Validators.min(0)],
           refProducto: [''],
         })
-      );
-    
+      );  
   }
 
+  //Recibimos cada producto del array para sumar el total de cada producto * cantidad, seguidamente suma el total de todos los productos
   setPrecioTotal(producto:any) {
 
-    producto.precioTotal = producto.precio * producto.cantidad;
+    producto.precioTotal = producto.precioUnitario * producto.cantidad;
     this.precioTotalCarrito = this.pedido.carrito.reduce( (a:any, b:any) => a + b.precioTotal, 0);
   }
 
@@ -138,29 +129,30 @@ export class PedidoFormPublicComponent implements OnInit {
 
   cancelarCarrito(){
 
-    this.dialogRef.close(this.pedido);
+    //devolvemos al componente que llamó el dialog el carrito para que pueda recalcular los datos.
+    this.dialogRef.close(this.pedido.carrito);
 
   }
   
-
+  
   comprar(){
 
     let pedidoDetalle = new Array()
 
-
+    //creamos un array con el detalle del pedido
     this.pedido.carrito.forEach((data:any) => {
 
       pedidoDetalle.push({
         cantidad: data.cantidad,
         descuento: 0,
-        refProducto: data.referencia,
-        tituloProducto: data.titulo,
-        precioUnitario: data.precio,
+        refProducto: data.refProducto,
+        tituloProducto: data.tituloProducto,
+        precioUnitario: data.precioUnitario,
         precioTotal: data.precioTotal,
       })
     })
-
-
+    
+    //asignamos el resto de datos al pedido
     let pedido: Pedido = {
       numeroPedido: '',  
       fecha: this.pedidoForm.get('fecha')?.value,
@@ -182,12 +174,15 @@ export class PedidoFormPublicComponent implements OnInit {
     
     }
 
-  
+    //enviamos el pedido a la base de datos.
+    //TODO, antes de enviar el pedido se debería comprobar que el token sigue siendo válido.
+    
     this.pedidosService.insertPedido(pedido).subscribe(data => {
+
       this.notificationsService.openNotification(
         'Pedido generado correctamente.'
       );
-      this.dialogRef.close();
+      this.dialogRef.close([]);
     }, (error) => {
 
       this.notificationsService.openNotification(

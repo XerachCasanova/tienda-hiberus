@@ -18,8 +18,6 @@ export class AuthInterceptorService implements HttpInterceptor{
 
     const token = sessionStorage.getItem('tiendaXerach');
     
-
-  
     let modifiedRequest = req;
 
     if(token) {
@@ -31,7 +29,7 @@ export class AuthInterceptorService implements HttpInterceptor{
         }
       });
     }
-
+    
     return next.handle(modifiedRequest).pipe(
       catchError(this.handleError.bind(this))
     );
@@ -39,6 +37,7 @@ export class AuthInterceptorService implements HttpInterceptor{
 
   private handleError(error:any)
   {
+    
     const codigo = 401;
   
 
@@ -46,14 +45,17 @@ export class AuthInterceptorService implements HttpInterceptor{
     {
 
       if(error.status == codigo) {
-
-        this.router.navigate(["/login"]);
+        sessionStorage.removeItem('tiendaXerach')
+        //this.router.navigate(["/panel/login"]);
 
       }
       if(error.status==500) {
 
-        console.log('COMPLETAR ERRORES')
+        sessionStorage.removeItem('tiendaXerach')
         
+      }
+      else{
+        sessionStorage.removeItem('tiendaXerach')
       }
     }
   

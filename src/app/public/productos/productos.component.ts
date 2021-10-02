@@ -15,6 +15,7 @@ import { ProductosService } from 'src/app/productos/productos.service';
 export class ProductosComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  //carritoToSend envía el carrito al componente que contiene el carrito
   @Output() carritoToSend: EventEmitter<any> = new EventEmitter();
 
   obs!: Observable<any>;
@@ -25,6 +26,7 @@ export class ProductosComponent implements OnInit, OnDestroy {
   carrito: PedidoDetalle[];
 
   constructor(
+
     private productosService: ProductosService) { 
 
       this.carrito = [];
@@ -33,6 +35,8 @@ export class ProductosComponent implements OnInit, OnDestroy {
 
  
   listarProductos() {
+
+    //recibimos el listado de productos de la base de datos y rellenamos el datasource
     this.productosService.getProductos().subscribe((data:any) => {
       this.listadoProductos = data
       this.dataSource = new MatTableDataSource<Producto>(this.listadoProductos)
@@ -49,9 +53,10 @@ export class ProductosComponent implements OnInit, OnDestroy {
 
   addToCarrito(producto:Producto){
 
-
+    //Añadimos un producto al array con cero cantidades, ya que el componente que maneja el carrito
+    //se hará cargo de recalcular a partir de las veces que se cada producto.
     this.carrito.push({
-      cantidad: 1,
+      cantidad: 0,
       descuento: 0,
       refProducto: producto.referencia,
       tituloProducto: producto.titulo,
@@ -59,8 +64,7 @@ export class ProductosComponent implements OnInit, OnDestroy {
       precioTotal: producto.precio,
     });
 
-    
-
+    //Enviamos el carrito al componente que contiene toda su lógica.
     this.carritoToSend.emit(this.carrito);
   }
 

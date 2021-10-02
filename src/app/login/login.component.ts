@@ -26,10 +26,13 @@ export class LoginComponent implements OnInit {
     private formBuilder:FormBuilder,
     private loginService:LoginService,
     private router:Router,
+
+    //Se abre como dialog cuando se accede desde el front office y normal cuando se accede desde el panel
     @Optional() @Inject(MAT_DIALOG_DATA) public dialog: any,
     @Optional() public dialogRef: MatDialogRef<LoginComponent>,
     ) { 
-    
+
+
     this.userLogin = {
       username: '',
       clave: ''
@@ -37,14 +40,15 @@ export class LoginComponent implements OnInit {
 
     this.userLoginForm = this.formBuilder.group({});
 
-
   }
 
   ngOnInit(): void {
 
     let token = sessionStorage.getItem('tiendaXerach');
 
-    console.log(token);
+    //comprobamos el token y si es válido redirigimos a pedidos
+    //TODO: no redirigir si es dialog.
+
     if (token){
       this.router.navigate(['/panel/pedidos']);
     }
@@ -58,6 +62,7 @@ export class LoginComponent implements OnInit {
 
   login(){
 
+    //comprobamos el token devuelto por el servio y almacenamos en sesión y redirigimos.
 
     this.userLogin = this.userLoginForm.value;
     this.loginService.login(this.userLogin).subscribe((data:any) => {

@@ -16,7 +16,7 @@
               <div formGroupName="direccionesGroup">
                 <div class="row">
                   <div class="col">
-                    <mat-label>Elige una dirección existente para autocompletar los campos de dirección.</mat-label>
+                    <mat-label>Elige una dirección existente o escribe una nueva.</mat-label>
                     <mat-select (selectionChange)="onChangeDir($event.value)">
                       <mat-option *ngFor="let direccion of pedido.usuario.direcciones; let i index" [value]="direccion">
                         {{direccion.calle}} {{direccion.localidad}} {{direccion.cp}} {{direccion.provincia}}
@@ -86,24 +86,24 @@
               <mat-header-cell *matHeaderCellDef><span class="mobile-label">Cantidad:</span>Cantidad </mat-header-cell>
               <mat-cell *matCellDef="let detalle"><span class="mobile-label">Cantidad:</span> 
                 <mat-form-field style="width: 80%" >
-                  <input matInput type="number" (change)="setPrecioTotal(detalle)"  [(ngModel)]="detalle.cantidad">
+                  <input matInput type="number" (change)="setPrecioTotal(detalle)"  [(ngModel)]="detalle.cantidad" step=1 oninput="this.value=(parseInt(this.value)||0)">
                 </mat-form-field>
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="referencia">
               <mat-header-cell *matHeaderCellDef> Referencia </mat-header-cell>
-              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Ref.:</span>{{detalle.referencia}} </mat-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Ref.:</span>{{detalle.refProducto}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="producto">
               <mat-header-cell *matHeaderCellDef> Producto </mat-header-cell>
-              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Producto:</span>{{detalle.titulo}} </mat-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Producto:</span>{{detalle.tituloProducto}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="precioUnitario">
               <mat-header-cell *matHeaderCellDef> Precio U. </mat-header-cell>
-              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Precio/ud.:</span>{{detalle.precio}} </mat-cell>
+              <mat-cell *matCellDef="let detalle"><span class="mobile-label">Precio/ud.:</span>{{detalle.precioUnitario}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="precioTotal">
@@ -126,12 +126,15 @@
         </mat-card-content>
 
       </mat-card>
-      <button mat-raised-button color="primary" (click)="comprar()">
-        Tramitar pedido
-     </button>
-      <button mat-raised-button color="primary" (click)="cancelarCarrito()">
-         Volver
-      </button>
+      <div class="acciones">
+        <button  mat-raised-button color="primary" (click)="comprar()">
+          Tramitar pedido
+       </button>
+        <button mat-raised-button color="primary" (click)="cancelarCarrito()">
+           Volver
+        </button>
+      </div>
+      
     </div>
     
   </div>

@@ -6,6 +6,7 @@ import { NotificationsService } from 'src/app/notifications.service';
 import { UsuariosService } from 'src/app/usuarios/usuarios.service';
 import { LoginService } from '../login.service';
 
+//TODO: añadir al entorno del front.
 
 @Component({
   selector: 'app-signup',

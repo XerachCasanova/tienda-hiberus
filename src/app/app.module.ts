@@ -32,6 +32,7 @@ import { ShellComponent } from './shell/shell.component';
 import { NotLoggedComponent } from './not-logged/not-logged.component';
 import { PublicshellComponent } from './public/shell/publicshell.component';
 import { MatBadgeModule } from '@angular/material/badge';
+import { UserAuthService } from './authentication/user-auth.service';
 
 
 
@@ -74,6 +75,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     MatBadgeModule,
   ],
   providers: [
+    UserAuthService,
     ErroresService,
     ProductosService,
     UsuariosService,
@@ -81,6 +83,7 @@ export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
     PedidosService,
     MatDatepickerModule,
     MatNativeDateModule,
+  
     {
       provide: CURRENCY_MASK_CONFIG,
       useValue: CustomCurrencyMaskConfig,

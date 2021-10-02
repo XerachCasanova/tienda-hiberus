@@ -20,7 +20,12 @@ export class UsuariosService {
   }
   
   verifyUser(){
-    return this.httpClient.get(this.urlBase + 'verifyToken');
+    
+    return this.httpClient.get(this.urlBase + 'verifyToken').pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
   
   }
 
@@ -33,7 +38,11 @@ export class UsuariosService {
   findMe(username: string): Observable<any> {
     let url = this.urlBase + 'me';
 
-    return this.httpClient.post(url, username);
+    return this.httpClient.post(url, username).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
   }
 
 
@@ -50,7 +59,7 @@ export class UsuariosService {
       .post(this.urlBase, usuario, { responseType: 'json' })
       .pipe(
         catchError((error) => {
-          console.log(error);
+         
           return throwError(error);
         })
       );
@@ -61,7 +70,7 @@ export class UsuariosService {
 
     return this.httpClient.put(url, usuario, { responseType: 'json' }).pipe(
       catchError((error) => {
-        console.log(error);
+     
         return throwError(error);
       })
     );
@@ -72,7 +81,7 @@ export class UsuariosService {
 
     return this.httpClient.delete(url).pipe(
       catchError((error) => {
-        console.log(error);
+       
         return throwError(error);
       })
     );

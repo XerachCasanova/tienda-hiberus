@@ -1,22 +1,19 @@
-<div class="container">
-    <div class="row">
-      <div class="col">
-        <div class="cards">
-          <mat-card *ngFor="let prod of obs | async">
-            <mat-card-title>{{prod.titulo}}</mat-card-title>
-            <mat-card-subtitle>{{prod.descripcion}}</mat-card-subtitle>
-            <mat-card-actions align="end">
-              <button mat-raised-button color="primary" (click) = "addToCarrito(prod)">Añadir al carrito</button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-    
-         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
-        </div>
-      </div>
+<div class="containergral">
+  <div class="container">
+    <div class="cards">
+      <mat-card  class="card" *ngFor="let prod of obs | async">
+        <mat-card-title>{{ prod.titulo }}</mat-card-title>
+        <mat-card-subtitle>{{ prod.descripcion }}</mat-card-subtitle>
+        <mat-card-actions align="end">
+          <button mat-raised-button color="primary" (click)="addToCarrito(prod)">
+            Añadir al carrito
+          </button>
+        </mat-card-actions>
+      </mat-card>
     </div>
-  </div>
+    
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+
+</div>
+
