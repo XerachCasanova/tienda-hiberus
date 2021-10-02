@@ -24,6 +24,7 @@
   justify-content: start; 
   flex-direction: column; 
   flex-wrap: wrap;
+  margin: 15px;
 
 }
 .mat-card-actions{
